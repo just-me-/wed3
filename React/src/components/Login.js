@@ -3,7 +3,7 @@
 import React from "react";
 import { Redirect, Link } from "react-router-dom";
 
-import { List } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 export type Props = {
   /* Callback to submit an authentication request to the server */
@@ -66,23 +66,49 @@ class Login extends React.Component<Props, *> {
     return (
       <div>
         <h1>Bank of Rapperswil</h1>
-        <form>
-          <h2>Login</h2>
-          <input
-            onChange={this.handleLoginChanged}
-            placeholder="Login"
-            value={this.state.login}
-          />
-          <input
-            onChange={this.handlePasswordChanged}
-            placeholder="Password"
-            type="password"
-            value={this.state.password}
-          />
-          <button onClick={this.handleSubmit}>Log-in</button>
-        </form>
-        {error && <p>Es ist ein Fehler aufgetreten!</p>}
-        <Link to="/signup">Noch keinen Account?</Link>
+
+        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+          
+           <Header as='h2' color='teal' textAlign='center'>
+            Login
+           </Header>
+
+            <Form size='large'>
+              <Segment stacked>
+                <Form.Input
+                  fluid
+                  icon='user'
+                  iconPosition='left'
+                  placeholder='Login'
+                  onChange={this.handleLoginChanged}
+                  value={this.state.login}
+                />
+                <Form.Input
+                  fluid
+                  icon='lock'
+                  iconPosition='left'
+                  placeholder='Password'
+                  type='password'
+                  onChange={this.handlePasswordChanged}
+                  value={this.state.password}
+                />
+
+                <Button color='teal' fluid size='large' onClick={this.handleSubmit}>
+                  Login
+                </Button>
+
+                {error && <p>Es ist ein Fehler aufgetreten!</p>}
+
+              </Segment>
+            </Form>
+            <Message>
+              Noch keinen Account?
+              <Link to="/signup"> Erstellen</Link>
+            </Message>
+          </Grid.Column>
+        </Grid>
+
       </div>
     );
   }
