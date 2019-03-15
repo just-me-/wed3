@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 import { signup } from "../api";
@@ -128,6 +128,10 @@ class Signup extends React.Component<Props, State> {
 
                       </Segment>
                   </Form>
+                  <Message>
+                    Bereits ein Account erstellt?
+                    <Link to="/login"> Anmelden</Link>
+                  </Message>
               </Grid.Column>
           </Grid>
 
