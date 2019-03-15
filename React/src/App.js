@@ -1,6 +1,8 @@
 // @flow
 
 import React from "react";
+import { Menu, Segment } from 'semantic-ui-react'
+
 import {
   BrowserRouter as Router,
   Route,
@@ -84,30 +86,55 @@ class App extends React.Component<Props, State> {
     callback();
   };
 
+  state = { activeItem: 'home' }
+  handleMenuClick = (e, { name }) => this.setState({ activeItem: name })
+
   render() {
     const { isAuthenticated, user, token } = this.state;
 
     const MenuBar = withRouter(({ history, location: { pathname } }) => {
       if (isAuthenticated && user) {
+        const { activeItem } = this.state
+
         return (
-          <nav>
-            <span>
-              {user.firstname} {user.lastname} &ndash; {user.accountNr}
-            </span>
-            {/* Links inside the App are created using the react-router's Link component */}
-            <Link to="/">Home</Link>
-            <Link to="/dashboard">Kontoübersicht</Link>
-            <Link to="/transactions">Zahlungen</Link>
-            <a
-              href="/logout"
-              onClick={event => {
-                event.preventDefault();
-                this.signout(() => history.push("/"));
-              }}
-            >
-              Logout {user.firstname} {user.lastname}
-            </a>
-          </nav>
+          <Menu pointing secondary color="teal" inverted>
+            <Menu.Item
+              name='home'
+              onClick={this.handleMenuClick}
+              /* Links inside the App are created using the react-router's Link component */
+              as={Link}
+              to="/"
+              active={activeItem === 'home'}
+              />
+            <Menu.Item
+              name='dashboard'
+              active={activeItem === 'dashboard'}
+              content="Kontoübersicht"
+              onClick={this.handleMenuClick}
+              as={Link}
+              to="/dashboard"
+            />
+            <Menu.Item
+              name='transactions'
+              active={activeItem === 'transactions'}
+              content="Zahlungen"
+              onClick={this.handleMenuClick}
+              as={Link}
+              to="/transactions"
+            />
+            <Menu.Menu position='right'>
+              <Menu.Item
+                name='logout'
+                active={activeItem === 'logout'}
+                content=<span>Logout {user.firstname} {user.lastname} &ndash; {user.accountNr}</span>
+                onClick={event => {
+                  event.preventDefault();
+                  this.signout(() => history.push("/"));
+                }}
+                href="/logout"
+              />
+            </Menu.Menu>
+          </Menu>
         );
       } else {
         return null;
@@ -132,10 +159,10 @@ class App extends React.Component<Props, State> {
             )}
           />
           <Route path="/signup" component={Signup} />
-          {/* 
+          {/*
             This is a comment inside JSX! It's a bit ugly, but works fine.
 
-            The following are protected routes that are only available for logged-in users. We also pass the user and token so 
+            The following are protected routes that are only available for logged-in users. We also pass the user and token so
             these components can do API calls. PrivateRoute is not part of react-router but our own implementation.
           */}
           <PrivateRoute
