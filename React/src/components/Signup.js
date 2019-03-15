@@ -85,6 +85,8 @@ class Signup extends React.Component<Props, State> {
                       <Segment stacked>
                           <Form.Input
                               fluid
+                              icon='user'
+                              iconPosition='left'
                               placeholder='Login'
                               onChange={this.handleLoginChanged}
                               value={this.state.login}
@@ -92,6 +94,8 @@ class Signup extends React.Component<Props, State> {
 
                           <Form.Input
                               fluid
+                              icon='user outline'
+                              iconPosition='left'
                               placeholder='Vorname'
                               onChange={this.handleFirstNameChanged}
                               value={this.state.firstname}
@@ -99,6 +103,8 @@ class Signup extends React.Component<Props, State> {
 
                           <Form.Input
                               fluid
+                              icon='user outline'
+                              iconPosition='left'
                               placeholder='Nachname'
                               onChange={this.handleLastNameChanged}
                               value={this.state.lastname}
