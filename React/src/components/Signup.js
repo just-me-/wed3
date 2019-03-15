@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 import { signup } from "../api";
 
@@ -71,31 +72,57 @@ class Signup extends React.Component<Props, State> {
     return (
       <div>
         <h1>Bank of Rapperswil</h1>
-        <form>
-          <h2>Registrieren</h2>
-          <input
-            onChange={this.handleLoginChanged}
-            placeholder="Login"
-            value={this.state.login}
-          />
-          <input
-            onChange={this.handleFirstNameChanged}
-            placeholder="Vorname"
-            value={this.state.firstname}
-          />
-          <input
-            onChange={this.handleLastNameChanged}
-            placeholder="Nachname"
-            value={this.state.lastname}
-          />
-          <input
-            onChange={this.handlePasswordChanged}
-            placeholder="Passwort"
-            type="password"
-            value={this.state.password}
-          />
-          <button onClick={this.handleSubmit}>Account eröffnen</button>
-        </form>
+          <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+              <Grid.Column style={{ maxWidth: 450 }}>
+
+                  <Header as='h2' color='teal' textAlign='center'>
+                      Registrierung
+                  </Header>
+
+                  <Form size='large'>
+                      <Segment stacked>
+                          <Form.Input
+                              fluid
+                              placeholder='Login'
+                              onChange={this.handleLoginChanged}
+                              value={this.state.login}
+                          />
+
+                          <Form.Input
+                              fluid
+                              placeholder='Vorname'
+                              onChange={this.handleFirstNameChanged}
+                              value={this.state.firstname}
+                          />
+
+                          <Form.Input
+                              fluid
+                              placeholder='Nachname'
+                              onChange={this.handleLastNameChanged}
+                              value={this.state.lastname}
+                          />
+
+                          <Form.Input
+                              fluid
+                              icon='lock'
+                              iconPosition='left'
+                              placeholder='Password'
+                              type='password'
+                              onChange={this.handlePasswordChanged}
+                              value={this.state.password}
+                          />
+
+                          <Button color='teal' fluid size='large' onClick={this.handleSubmit}>
+                              Account eröffnen
+                          </Button>
+
+                          {error && <p>Es ist ein Fehler aufgetreten!</p>}
+
+                      </Segment>
+                  </Form>
+              </Grid.Column>
+          </Grid>
+
         {error && <p>Es ist ein Fehler aufgetreten!</p>}
       </div>
     );
