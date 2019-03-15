@@ -123,7 +123,6 @@ class Signup extends React.Component<Props, State> {
               </Grid.Column>
           </Grid>
 
-        {error && <p>Es ist ein Fehler aufgetreten!</p>}
       </div>
     );
   }
