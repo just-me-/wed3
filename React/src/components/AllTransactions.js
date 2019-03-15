@@ -11,19 +11,6 @@ const tableData = [
   { name: 'Ben', age: 70, gender: 'Male' },
 ]
 
-export type Props = {
-  isAuthenticated: boolean,
-}
-
-const AllTransactions_OLD = ({isAuthenticated}: Props) => (
-    <div>
-            <div>
-                <p>Hier kommen alle Zahlungen</p>
-            </div>
-
-    </div>
-);
-
 class AllTransactions extends Component {
   state = {
     column: null,
@@ -103,6 +90,21 @@ class AllTransactions extends Component {
       </Grid>
     )
   }
+
+  componentDidMount() {
+    const token = sessionStorage.getItem("token"); // im state??
+    const url = "/accounts/transactions?accounts/transactions?fromDate=2016-05-11T02:00:00.000Z&toDate=2016-12-11T02:00:00.000Z&count=1&skip=1"
+    fetch(url, {
+       method: 'get',
+       headers: new Headers({
+         'Authorization': 'Bearer '+token
+       })
+     })
+     .then(response => response.json())
+     .then( data => console.log(data) /*data => this.setState({ data })*/)
+     .catch( error => console.log("Hoppla Georg...", error) );
+  }
+
 }
 
 
