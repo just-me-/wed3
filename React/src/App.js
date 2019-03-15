@@ -100,11 +100,11 @@ class App extends React.Component<Props, State> {
           <Menu pointing secondary color="teal" inverted>
             <Menu.Item
               name='home'
+              active={activeItem === 'home'}
               onClick={this.handleMenuClick}
               /* Links inside the App are created using the react-router's Link component */
               as={Link}
               to="/"
-              active={activeItem === 'home'}
               />
             <Menu.Item
               name='dashboard'

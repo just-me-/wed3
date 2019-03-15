@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Button, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 export type Props = {
   isAuthenticated: boolean,
@@ -15,9 +16,22 @@ const Home = ({isAuthenticated}: Props) => (
           <Link to={'/dashboard'}>Zum Dashboard</Link>
         </div>
       : <div>
-          <Link to={'/login'}>Einloggen</Link>
-          <p>Falls Sie noch keinen Account besitzen können Sie sich hier registrieren:</p>
-          <Link to={'/signup'}>Registrieren</Link>
+        <Grid textAlign='center' style={{ height: '100%', marginTop: '2rem' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+
+           <Header as='h1' color='teal' textAlign='center'>
+            Bank of Rapperswil
+           </Header>
+           <Button.Group size='large'>
+            <Button as={Link} to="/login">Einloggen</Button>
+            <Button.Or text="<=>" />
+             <Button as={Link} to="/signup">Registrieren</Button>
+          </Button.Group>
+            <Message>
+              Melden Sie sich an oder registrieren Sie sich neu, falls Sie noch keinen Account besitzen.
+            </Message>
+          </Grid.Column>
+        </Grid>
         </div>
     }
   </div>

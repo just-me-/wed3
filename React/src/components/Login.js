@@ -65,11 +65,13 @@ class Login extends React.Component<Props, *> {
 
     return (
       <div>
-        <h1>Bank of Rapperswil</h1>
+        <Header as='h1' color='teal' textAlign='center' style={{marginTop: '2rem'}}>
+         Bank of Rapperswil
+        </Header>
 
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
-          
+
            <Header as='h2' color='teal' textAlign='center'>
             Login
            </Header>
