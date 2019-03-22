@@ -18,3 +18,4 @@ server.bundle.js
 .env
 npm-debug.log
 .idea
+.idea/workspace.xml
