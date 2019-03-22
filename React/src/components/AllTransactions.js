@@ -55,6 +55,12 @@ class AllTransactions extends Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell
+                  sorted={column === 'date' ? direction : null}
+                  onClick={this.handleSort('date')}
+                >
+                  Datum
+                </Table.HeaderCell>
+                <Table.HeaderCell
                   sorted={column === 'from' ? direction : null}
                   onClick={this.handleSort('from')}
                 >
@@ -78,23 +84,17 @@ class AllTransactions extends Component {
                 >
                   Kontostand neu
                 </Table.HeaderCell>
-                <Table.HeaderCell
-                  sorted={column === 'date' ? direction : null}
-                  onClick={this.handleSort('date')}
-                >
-                  Datum
-                </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {/*die daten haben keine id - also einfach index vom array als "id"*/}
               {_.map(tableData, ({ from, target, amount, total, date }, index) => (
                 <Table.Row key={index}>
+                  <Table.Cell><DateFormat timestamp={date}/></Table.Cell>
                   <Table.Cell>{from}</Table.Cell>
                   <Table.Cell>{target}</Table.Cell>
                   <Table.Cell>{amount}</Table.Cell>
                   <Table.Cell>{total}</Table.Cell>
-                  <Table.Cell><DateFormat timestamp={date}/></Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
