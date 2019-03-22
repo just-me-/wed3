@@ -6,42 +6,37 @@ import { Table, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 import * as api from "../api";
 
-const tableData = [
-  { name: 'John', age: 15, gender: 'Male' },
-  { name: 'Amber', age: 40, gender: 'Female' },
-  { name: 'Leslie', age: 25, gender: 'Female' },
-  { name: 'Ben', age: 70, gender: 'Male' },
-]
-
 class AllTransactions extends Component {
 
-  state = {
-    column: null,
-    data: tableData,
-    direction: null,
-  }
+  constructor(){
+        super();
+        this.state = {
+          tableData: [],
+          column: null,
+          direction: null
+        }
+    }
 
   handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state
+    const { column, tableData, direction } = this.state
 
     if (column !== clickedColumn) {
       this.setState({
         column: clickedColumn,
-        data: _.sortBy(data, [clickedColumn]),
+        tableData: _.sortBy(tableData, [clickedColumn]),
         direction: 'ascending',
       })
-
       return
     }
 
     this.setState({
-      data: data.reverse(),
+      tableData: tableData.reverse(),
       direction: direction === 'ascending' ? 'descending' : 'ascending',
     })
   }
 
   render() {
-    const { column, data, direction } = this.state
+    const { column, tableData, direction } = this.state
 
     return (
       <Grid textAlign='center' verticalAlign='middle'>
@@ -59,31 +54,46 @@ class AllTransactions extends Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell
-                  sorted={column === 'name' ? direction : null}
-                  onClick={this.handleSort('name')}
+                  sorted={column === 'from' ? direction : null}
+                  onClick={this.handleSort('from')}
                 >
-                  Name
+                  From
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  sorted={column === 'age' ? direction : null}
-                  onClick={this.handleSort('age')}
+                  sorted={column === 'target' ? direction : null}
+                  onClick={this.handleSort('target')}
                 >
-                  Age
+                  Target
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  sorted={column === 'gender' ? direction : null}
-                  onClick={this.handleSort('gender')}
+                  sorted={column === 'amount' ? direction : null}
+                  onClick={this.handleSort('amount')}
                 >
-                  Gender
+                  Amount
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'total' ? direction : null}
+                  onClick={this.handleSort('total')}
+                >
+                  Total
+                </Table.HeaderCell>
+                <Table.HeaderCell
+                  sorted={column === 'date' ? direction : null}
+                  onClick={this.handleSort('date')}
+                >
+                  Date
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {_.map(data, ({ age, gender, name }) => (
-                <Table.Row key={name}>
-                  <Table.Cell>{name}</Table.Cell>
-                  <Table.Cell>{age}</Table.Cell>
-                  <Table.Cell>{gender}</Table.Cell>
+              {/*die daten haben keine id - also einfach index vom array als "id"*/}
+              {_.map(tableData, ({ from, target, amount, total, date }, index) => (
+                <Table.Row key={index}>
+                  <Table.Cell>{from}</Table.Cell>
+                  <Table.Cell>{target}</Table.Cell>
+                  <Table.Cell>{amount}</Table.Cell>
+                  <Table.Cell>{total}</Table.Cell>
+                  <Table.Cell>{date}</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
@@ -99,6 +109,11 @@ class AllTransactions extends Component {
        .getTransactions(this.props.token)
        .then(({ result, query }) => {
          console.log(result);
+         // ableData = result;
+         this.setState({
+              tableData: result
+          });
+         //render();
        })
        .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
   }
