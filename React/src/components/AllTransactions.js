@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
+import {DateFormat} from "./DateFormat.js";
 import * as api from "../api";
 
 class AllTransactions extends Component {
@@ -57,31 +58,31 @@ class AllTransactions extends Component {
                   sorted={column === 'from' ? direction : null}
                   onClick={this.handleSort('from')}
                 >
-                  From
+                  Von
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   sorted={column === 'target' ? direction : null}
                   onClick={this.handleSort('target')}
                 >
-                  Target
+                  Zu
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   sorted={column === 'amount' ? direction : null}
                   onClick={this.handleSort('amount')}
                 >
-                  Amount
+                  Betrag
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   sorted={column === 'total' ? direction : null}
                   onClick={this.handleSort('total')}
                 >
-                  Total
+                  Kontostand neu
                 </Table.HeaderCell>
                 <Table.HeaderCell
                   sorted={column === 'date' ? direction : null}
                   onClick={this.handleSort('date')}
                 >
-                  Date
+                  Datum
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -93,7 +94,7 @@ class AllTransactions extends Component {
                   <Table.Cell>{target}</Table.Cell>
                   <Table.Cell>{amount}</Table.Cell>
                   <Table.Cell>{total}</Table.Cell>
-                  <Table.Cell>{date}</Table.Cell>
+                  <Table.Cell><DateFormat timestamp={date}/></Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
@@ -108,12 +109,9 @@ class AllTransactions extends Component {
      api
        .getTransactions(this.props.token)
        .then(({ result, query }) => {
-         console.log(result);
-         // ableData = result;
          this.setState({
               tableData: result
           });
-         //render();
        })
        .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
   }
