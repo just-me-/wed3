@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import { Button, Grid, Header, Message } from 'semantic-ui-react'
 
 export type Props = {
   isAuthenticated: boolean,

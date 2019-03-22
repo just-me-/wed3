@@ -1,8 +1,7 @@
 // @flow
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { Table, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import { Table, Grid, Header, Select } from 'semantic-ui-react'
 
 import {DateFormat} from "./DateFormat.js";
 import * as api from "../api";
@@ -14,7 +13,10 @@ class AllTransactions extends Component {
         this.state = {
           tableData: [],
           column: null,
-          direction: null
+          direction: null,
+          filterYear: null,
+          filterMonth: null,
+          filterMsg: ""
         }
     }
 
@@ -36,8 +38,72 @@ class AllTransactions extends Component {
     })
   }
 
+  daysInMonth (month, year = 2019) {
+    month = parseInt(month);
+    return new Date(year, month, 0).getDate();
+  }
+  // really worse but it should do the job
+  applyFilter() {
+    const month = this.state.filterMonth || "01";
+    const year = this.state.filterYear || "2019";
+
+    let dateFrom = (this.state.filterYear || this.state.filterMonth ? year : "2017")+"-"+month+"-01";
+    let dateTo = year+"-"
+                +(this.state.filterMonth ? month : "12")
+                +"-"
+                +this.daysInMonth(month, this.state.filterYear);
+
+    // kinda for debugging
+    this.setState({ filterMsg: "(Von "+ dateFrom +" bis "+ dateTo +")" });
+
+    // in case filters are deleted
+    if(!this.state.filterMonth && !this.state.filterYear) {
+      dateFrom = dateTo = "";
+      this.setState({ filterMsg: "(Filter gelöscht)" });
+    }
+
+    api
+      .getTransactions(this.props.token, dateFrom, dateTo, 50)
+      .then(({ result, query }) => {
+        this.setState({
+             tableData: result
+         });
+      })
+      .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
+  }
+  handleFilterYear = (event, {value}) => {
+    this.setState({ filterYear: value },
+    this.applyFilter) // as callback
+  }
+  handleFilterMonth = (event, {value}) => {
+    this.setState({ filterMonth: value },
+    this.applyFilter) // as callback
+  }
+
   render() {
     const { column, tableData, direction } = this.state
+
+    const filterYear = [
+      {key: 0, text: "kein Filter", value: undefined},
+      {key: 2019, text: "2019", value: "2019"},
+      {key: 2018, text: "2018", value: "2018"},
+      {key: 2017, text: "2017", value: "2017"}
+    ];
+    const filterMonth = [
+      {key: 0, text: "kein Filter", value: undefined},
+      {key: 1, text: "Januar", value: "01"},
+      {key: 2, text: "Februar", value: "02"},
+      {key: 3, text: "März", value: "03"},
+      {key: 4, text: "April", value: "04"},
+      {key: 5, text: "Mai", value: "05"},
+      {key: 6, text: "Juni", value: "06"},
+      {key: 7, text: "Juli", value: "07"},
+      {key: 8, text: "August", value: "08"},
+      {key: 9, text: "September", value: "09"},
+      {key: 10, text: "Oktober", value: "10"},
+      {key: 11, text: "November", value: "11"},
+      {key: 12, text: "Dezember", value: "12"}
+    ];
 
     return (
       <Grid textAlign='center' verticalAlign='middle'>
@@ -47,9 +113,27 @@ class AllTransactions extends Component {
            Alle Bewegungen
           </Header>
 
-          <Header as='h2' color='teal' textAlign='left'>
-           Filter... 2Do
-          </Header>
+          <Grid verticalAlign='middle' stackable>
+            <Grid.Row>
+              <Grid.Column width={6}>
+                <Header as='h3' color='teal' textAlign='left'>
+                   Filter {this.state.filterMsg}
+                </Header>
+              </Grid.Column>
+
+              <Grid.Column width={5}>
+                <Select placeholder='Jahr filtern' options={filterYear}
+                        onChange={this.handleFilterYear}/>
+              </Grid.Column>
+
+              <Grid.Column width={5}>
+                <Select placeholder='Monat filtern' options={filterMonth}
+                        onChange={this.handleFilterMonth}/>
+              </Grid.Column>
+
+            </Grid.Row>
+          </Grid>
+
 
           <Table sortable celled fixed>
             <Table.Header>
@@ -107,7 +191,7 @@ class AllTransactions extends Component {
 
   componentDidMount() {
      api
-       .getTransactions(this.props.token)
+       .getTransactions(this.props.token, undefined, undefined, 50)
        .then(({ result, query }) => {
          this.setState({
               tableData: result
