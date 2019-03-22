@@ -93,7 +93,7 @@ class AllTransactions extends Component {
 
   componentDidMount() {
     const token = sessionStorage.getItem("token"); // im state??
-    const url = "/accounts/transactions?accounts/transactions?fromDate=2016-05-11T02:00:00.000Z&toDate=2016-12-11T02:00:00.000Z&count=1&skip=1"
+    const url = "http://localhost:3000/accounts/transactions?accounts/transactions?fromDate=2016-05-11T02:00:00.000Z&toDate=2016-12-11T02:00:00.000Z&count=1&skip=1"
     fetch(url, {
        method: 'get',
        headers: new Headers({
