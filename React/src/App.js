@@ -15,6 +15,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard"
 import AllTransactions from "./components/AllTransactions"
+import Bsp_hook from "./components/Bsp_hook"
 
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -122,6 +123,14 @@ class App extends React.Component<Props, State> {
               as={Link}
               to="/transactions"
             />
+            <Menu.Item
+              name='bsp'
+              active={activeItem === 'bsp'}
+              content="Beispiel Hook"
+              onClick={this.handleMenuClick}
+              as={Link}
+              to="/bsp_hook"
+            />
             <Menu.Menu position='right'>
               <Menu.Item
                 name='logout'
@@ -177,6 +186,13 @@ class App extends React.Component<Props, State> {
             token={token}
             user={user}
             component={AllTransactions}
+          />
+          <PrivateRoute
+            path="/bsp_hook"
+            isAuthenticated={isAuthenticated}
+            token={token}
+            user={user}
+            component={Bsp_hook}
           />
         </div>
       </Router>
