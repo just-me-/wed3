@@ -23,6 +23,7 @@ class Signup extends React.Component<Props, State> {
     firstname: "",
     lastname: "",
     password: "",
+    confirmPassword: "",
     error: null,
     redirectToReferrer: false
   };
@@ -51,15 +52,27 @@ class Signup extends React.Component<Props, State> {
     }
   };
 
+  handleConfirmPasswordChanged = (event: Event) => {
+    if (event.target instanceof HTMLInputElement) {
+      this.setState({ confirmPassword: event.target.value });
+    }
+  };
+
+
+
   handleSubmit = (event: Event) => {
     event.preventDefault();
-    const { login, firstname, lastname, password } = this.state;
-    signup(login, firstname, lastname, password)
-      .then(result => {
-        console.log("Signup result ", result);
-        this.setState({ redirectToReferrer: true, error: null });
-      })
-      .catch(error => this.setState({ error }));
+    const { login, firstname, lastname, password, confirmPassword} = this.state;
+    if (password !== confirmPassword) {
+        alert("Passwords don't match");
+    } else {
+        signup(login, firstname, lastname, password)
+            .then(result => {
+                console.log("Signup result ", result);
+                this.setState({redirectToReferrer: true, error: null});
+            })
+            .catch(error => this.setState({error}));
+    }
   };
 
   render() {
@@ -119,6 +132,17 @@ class Signup extends React.Component<Props, State> {
                               onChange={this.handlePasswordChanged}
                               value={this.state.password}
                           />
+
+                          <Form.Input
+                              fluid
+                              icon='lock'
+                              iconPosition='left'
+                              placeholder='Password'
+                              type='password'
+                              onChange={this.handleConfirmPasswordChanged}
+                              value={this.state.confirmPassword}
+                          />
+
 
                           <Button color='teal' fluid size='large' onClick={this.handleSubmit}>
                               Account eröffnen

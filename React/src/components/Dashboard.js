@@ -1,8 +1,8 @@
 // @flow
 import _ from 'lodash'
-import { Link } from 'react-router-dom'
 import React, { Component } from 'react'
-import { Table, Grid, Header, Message, Segment,Button, Divider, Form } from 'semantic-ui-react'
+import { Table, Grid, Header,  Segment,Button, Form } from 'semantic-ui-react'
+import * as api from "../api";
 
 const tableData = [
     { name: 'John', age: 15, gender: 'Male' },
@@ -19,14 +19,14 @@ class Dashboard extends Component {
     }
 
     handleSort = clickedColumn => () => {
-        const { column, data, direction } = this.state
+        const { column, data, direction } = this.state;
 
         if (column !== clickedColumn) {
             this.setState({
                 column: clickedColumn,
                 data: _.sortBy(data, [clickedColumn]),
                 direction: 'ascending',
-            })
+            });
 
             return
         }
@@ -35,10 +35,10 @@ class Dashboard extends Component {
             data: data.reverse(),
             direction: direction === 'ascending' ? 'descending' : 'ascending',
         })
-    }
+    };
 
     render() {
-        const { column, data, direction } = this.state
+        const { column, data, direction } = this.state;
 
         return (
             <Segment placeholder>
@@ -97,25 +97,36 @@ class Dashboard extends Component {
 
                     </Grid.Column>
                 </Grid>
-
             </Segment>
         )
     }
 
     componentDidMount() {
-        const token = sessionStorage.getItem("token"); // im state??
-        const url = "http://localhost:3000/accounts/transactions?accounts/transactions?fromDate=2016-05-11T02:00:00.000Z&toDate=2016-12-11T02:00:00.000Z&count=1&skip=1"
-        fetch(url, {
-            method: 'get',
-            headers: new Headers({
-                'Authorization': 'Bearer '+token
+        api
+            .getTransactions(this.props.token)
+            .then(({ result, query }) => {
+                console.log(result);
             })
-        })
-            .then(response => response.json())
-            .then( data => console.log(data) /*data => this.setState({ data })*/)
-            .catch( error => console.log("Hoppla Georg...", error) );
-    }
+            .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
 
+        /*
+        api.getAccountDetails(this.props.token)
+            .then(({ result, query }) => {
+                console.log("Account Details:"+ result);
+            })
+            .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
+        */
+
+        api
+            .transfer(1000002,23,this.props.token)
+            .then(({result}) => {
+                console.log(result)
+            })
+            .catch(error => console.log("Ups - no transaction has been done"))
+
+
+
+    }
 }
 
 export default Dashboard
