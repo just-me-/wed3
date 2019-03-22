@@ -4,6 +4,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
+import * as api from "../api";
+
 const tableData = [
   { name: 'John', age: 15, gender: 'Male' },
   { name: 'Amber', age: 40, gender: 'Female' },
@@ -12,6 +14,7 @@ const tableData = [
 ]
 
 class AllTransactions extends Component {
+
   state = {
     column: null,
     data: tableData,
@@ -92,17 +95,12 @@ class AllTransactions extends Component {
   }
 
   componentDidMount() {
-    const token = sessionStorage.getItem("token"); // im state??
-    const url = "http://localhost:3000/accounts/transactions?accounts/transactions?fromDate=2016-05-11T02:00:00.000Z&toDate=2016-12-11T02:00:00.000Z&count=1&skip=1"
-    fetch(url, {
-       method: 'get',
-       headers: new Headers({
-         'Authorization': 'Bearer '+token
+     api
+       .getTransactions(this.props.token)
+       .then(({ result, query }) => {
+         console.log(result);
        })
-     })
-     .then(response => response.json())
-     .then( data => console.log(data) /*data => this.setState({ data })*/)
-     .catch( error => console.log("Hoppla Georg...", error) );
+       .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
   }
 
 }

@@ -7,6 +7,7 @@ function PrivateRoute({ component, isAuthenticated, user, token, ...rest }) {
     return (
       <Route
         {...rest}
+        // gibt gleich das token und co der nächsten komponente mit
         render={props =>
           React.createElement(component, { ...props, user, token })
         }
