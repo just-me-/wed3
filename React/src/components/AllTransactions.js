@@ -16,7 +16,8 @@ class AllTransactions extends Component {
           direction: null,
           filterYear: null,
           filterMonth: null,
-          filterMsg: ""
+          filterMsg: "",
+          countTrans: 50
         }
     }
 
@@ -63,7 +64,7 @@ class AllTransactions extends Component {
     }
 
     api
-      .getTransactions(this.props.token, dateFrom, dateTo, 50)
+      .getTransactions(this.props.token, dateFrom, dateTo, this.state.countTrans)
       .then(({ result, query }) => {
         this.setState({
              tableData: result
@@ -104,6 +105,12 @@ class AllTransactions extends Component {
       {key: 11, text: "November", value: "11"},
       {key: 12, text: "Dezember", value: "12"}
     ];
+    const filterCount = [
+      {key: 1, text: "10", value: 10},
+      {key: 2, text: "25", value: 25},
+      {key: 3, text: "50", value: 50},
+      {key: 4, text: "Alle", value: 500} // wird reichen ;-)
+    ];
 
     return (
       <Grid textAlign='center' verticalAlign='middle'>
@@ -117,18 +124,23 @@ class AllTransactions extends Component {
             <Grid.Row>
               <Grid.Column width={6}>
                 <Header as='h3' color='teal' textAlign='left'>
-                   Filter {this.state.filterMsg}
+                   Filter {this.state.filterMsg} (Anz: {this.state.tableData.length}/{this.state.countTrans})
                 </Header>
               </Grid.Column>
 
-              <Grid.Column width={5}>
-                <Select placeholder='Jahr filtern' options={filterYear}
+              <Grid.Column width={4}>
+                <Select placeholder='Jahr filtern' options={filterYear} style={{ minWidth: "10em" }}
                         onChange={this.handleFilterYear}/>
               </Grid.Column>
 
-              <Grid.Column width={5}>
-                <Select placeholder='Monat filtern' options={filterMonth}
+              <Grid.Column width={4}>
+                <Select placeholder='Monat filtern' options={filterMonth} style={{ minWidth: "10em" }}
                         onChange={this.handleFilterMonth}/>
+              </Grid.Column>
+
+              <Grid.Column width={2}>
+                <Select placeholder='Anzahl' options={filterCount} style={{ minWidth: "50px" }}
+                        onChange={(event, {value}) => this.setState({ countTrans: value }, this.applyFilter)}/>
               </Grid.Column>
 
             </Grid.Row>
@@ -191,7 +203,7 @@ class AllTransactions extends Component {
 
   componentDidMount() {
      api
-       .getTransactions(this.props.token, undefined, undefined, 50)
+       .getTransactions(this.props.token, undefined, undefined, this.state.countTrans)
        .then(({ result, query }) => {
          this.setState({
               tableData: result
