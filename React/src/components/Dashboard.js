@@ -3,43 +3,44 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { Table, Grid, Header,  Segment,Button, Form } from 'semantic-ui-react'
 import * as api from "../api";
+import {DateFormat} from "./DateFormat";
+import type { User } from "./api";
+import {Menu} from "semantic-ui-react/dist/commonjs/collections/Menu/Menu";
 
-const tableData = [
-    { name: 'John', age: 15, gender: 'Male' },
-    { name: 'Amber', age: 40, gender: 'Female' },
-    { name: 'Leslie', age: 25, gender: 'Female' },
-    { name: 'Ben', age: 70, gender: 'Male' },
-]
 
 class Dashboard extends Component {
-    state = {
-        column: null,
-        data: tableData,
-        direction: null,
+    constructor(){
+        super();
+        const user = sessionStorage.getItem("user");
+        this.state = {
+            tableData: [],
+            amount: null,
+            user: JSON.parse(user),
+            recipient: null,
+            recipientNr: 0
+        }
     }
 
-    handleSort = clickedColumn => () => {
-        const { column, data, direction } = this.state;
-
-        if (column !== clickedColumn) {
-            this.setState({
-                column: clickedColumn,
-                data: _.sortBy(data, [clickedColumn]),
-                direction: 'ascending',
-            });
-
-            return
-        }
-
-        this.setState({
-            data: data.reverse(),
-            direction: direction === 'ascending' ? 'descending' : 'ascending',
-        })
+    checkIfAccountExists(accountNumber){
+        api
+            .getAccount(accountNumber, this.props.token)
+            .then(({accountNr,owner}) => {
+                console.log(owner);
+                this.setState({
+                    recipient: owner
+                })
+            })
+            .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
     };
 
-    render() {
-        const { column, data, direction } = this.state;
+    handleRecipientNumberChange(input) {
+        console.log(input.target.value)
+    }
 
+    render() {
+
+        const { tableData, amount, user } = this.state;
+        const userAndAmount = user.accountNr + " - [" + amount + "]";
         return (
             <Segment placeholder>
                 <Grid columns={2} relaxed='very' stackable>
@@ -48,8 +49,8 @@ class Dashboard extends Component {
                             Neue Bewegungen
                         </Header>
                         <Form>
-                            <Form.Input label='Von' placeholder='Sender Zahlung' />
-                            <Form.Input  label='Zu' placeholder='Empfänger Zahlung' />
+                            <Form.Input label='Von' value={userAndAmount}/>
+                            <Form.Input  label='Zu' placeholder='Empfänger Zahlung' onChange={this.handleRecipientNumberChange}/>
                             <Form.Input  label='Betrag - CHF' placeholder='Betrag Zahlung' />
                             <Button content='Überweisen' primary />
                         </Form>
@@ -61,40 +62,39 @@ class Dashboard extends Component {
                             Alle Bewegungen
                         </Header>
 
-                        <Table sortable celled fixed>
+                        <Table>
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell
-                                        sorted={column === 'name' ? direction : null}
-                                        onClick={this.handleSort('name')}
-                                    >
-                                        Name
+                                    <Table.HeaderCell>
+                                        Datum
                                     </Table.HeaderCell>
-                                    <Table.HeaderCell
-                                        sorted={column === 'age' ? direction : null}
-                                        onClick={this.handleSort('age')}
-                                    >
-                                        Age
+                                    <Table.HeaderCell>
+                                        Von
                                     </Table.HeaderCell>
-                                    <Table.HeaderCell
-                                        sorted={column === 'gender' ? direction : null}
-                                        onClick={this.handleSort('gender')}
-                                    >
-                                        Gender
+                                    <Table.HeaderCell>
+                                        Zu
+                                    </Table.HeaderCell>
+                                    <Table.HeaderCell>
+                                        Betrag
+                                    </Table.HeaderCell>
+                                    <Table.HeaderCell>
+                                        Kontostand neu
                                     </Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
-                                {_.map(data, ({ age, gender, name }) => (
-                                    <Table.Row key={name}>
-                                        <Table.Cell>{name}</Table.Cell>
-                                        <Table.Cell>{age}</Table.Cell>
-                                        <Table.Cell>{gender}</Table.Cell>
+                                {/*die daten haben keine id - also einfach index vom array als "id"*/}
+                                {_.map(tableData, ({ from, target, amount, total, date }, index) => (
+                                    <Table.Row key={index}>
+                                        <Table.Cell><DateFormat timestamp={date}/></Table.Cell>
+                                        <Table.Cell>{from}</Table.Cell>
+                                        <Table.Cell>{target}</Table.Cell>
+                                        <Table.Cell>{amount}</Table.Cell>
+                                        <Table.Cell>{total}</Table.Cell>
                                     </Table.Row>
                                 ))}
                             </Table.Body>
                         </Table>
-
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -103,29 +103,22 @@ class Dashboard extends Component {
 
     componentDidMount() {
         api
-            .getTransactions(this.props.token)
+            .getTransactions(this.props.token, undefined, undefined, this.state.countTrans)
             .then(({ result, query }) => {
-                console.log(result);
+                this.setState({
+                    tableData: result.slice(0,5)
+                });
             })
             .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
-
-        /*
-        api.getAccountDetails(this.props.token)
-            .then(({ result, query }) => {
-                console.log("Account Details:"+ result);
-            })
-            .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
-        */
 
         api
-            .transfer(1000002,23,this.props.token)
-            .then(({result}) => {
-                console.log(result)
+            .getAccountDetails(this.props.token)
+            .then(({amount}) => {
+                this.setState({
+                    amount: amount
+                });
             })
-            .catch(error => console.log("Ups - no transaction has been done"))
-
-
-
+            .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error))
     }
 }
 

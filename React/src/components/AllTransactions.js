@@ -29,7 +29,7 @@ class AllTransactions extends Component {
         column: clickedColumn,
         tableData: _.sortBy(tableData, [clickedColumn]),
         direction: 'ascending',
-      })
+      });
       return
     }
 
@@ -37,7 +37,7 @@ class AllTransactions extends Component {
       tableData: tableData.reverse(),
       direction: direction === 'ascending' ? 'descending' : 'ascending',
     })
-  }
+  };
 
   daysInMonth (month, year = 2019) {
     month = parseInt(month);
@@ -75,11 +75,11 @@ class AllTransactions extends Component {
   handleFilterYear = (event, {value}) => {
     this.setState({ filterYear: value },
     this.applyFilter) // as callback
-  }
+  };
   handleFilterMonth = (event, {value}) => {
     this.setState({ filterMonth: value },
     this.applyFilter) // as callback
-  }
+  };
 
   render() {
     const { column, tableData, direction } = this.state
