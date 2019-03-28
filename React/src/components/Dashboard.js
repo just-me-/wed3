@@ -14,21 +14,33 @@ class Dashboard extends Component {
         const user = sessionStorage.getItem("user");
         this.state = {
             tableData: [],
-            column: null,
-            direction: null,
             amount: null,
-            filterMonth: null,
-            filterMsg: "",
-            countTrans: 50,
-            user: JSON.parse(user)
+            user: JSON.parse(user),
+            recipient: null,
+            recipientNr: 0
         }
+    }
+
+    checkIfAccountExists(accountNumber){
+        api
+            .getAccount(accountNumber, this.props.token)
+            .then(({accountNr,owner}) => {
+                console.log(owner);
+                this.setState({
+                    recipient: owner
+                })
+            })
+            .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
+    };
+
+    handleRecipientNumberChange(input) {
+        console.log(input.target.value)
     }
 
     render() {
 
-        const { column, tableData, amount, user } = this.state
+        const { tableData, amount, user } = this.state;
         const userAndAmount = user.accountNr + " - [" + amount + "]";
-
         return (
             <Segment placeholder>
                 <Grid columns={2} relaxed='very' stackable>
@@ -38,7 +50,7 @@ class Dashboard extends Component {
                         </Header>
                         <Form>
                             <Form.Input label='Von' value={userAndAmount}/>
-                            <Form.Input  label='Zu' placeholder='Empfänger Zahlung'/>
+                            <Form.Input  label='Zu' placeholder='Empfänger Zahlung' onChange={this.handleRecipientNumberChange}/>
                             <Form.Input  label='Betrag - CHF' placeholder='Betrag Zahlung' />
                             <Button content='Überweisen' primary />
                         </Form>
@@ -67,8 +79,7 @@ class Dashboard extends Component {
                                     </Table.HeaderCell>
                                     <Table.HeaderCell>
                                         Kontostand neu
-                                    </Table.HeaderCell
-                                        >
+                                    </Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
@@ -103,7 +114,6 @@ class Dashboard extends Component {
         api
             .getAccountDetails(this.props.token)
             .then(({amount}) => {
-                console.log(amount);
                 this.setState({
                     amount: amount
                 });
