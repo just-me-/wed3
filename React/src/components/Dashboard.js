@@ -1,12 +1,13 @@
 // @flow
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { Table, Grid, Header,  Segment,Button, Form } from 'semantic-ui-react'
+import {Link} from "react-router-dom";
+import { Table, Grid, Header, Segment, Button, Form , Dropdown} from 'semantic-ui-react'
+
 import * as api from "../api";
 import {DateFormat} from "./DateFormat";
-import type { User } from "./api";
-import {Menu} from "semantic-ui-react/dist/commonjs/collections/Menu/Menu";
-
+//import type { User } from "./api";
+//import {Menu} from "semantic-ui-react/dist/commonjs/collections/Menu/Menu";
 
 class Dashboard extends Component {
     constructor(){
@@ -33,6 +34,14 @@ class Dashboard extends Component {
             .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
     };
 
+    getTargetAccounts(){
+        // 2do...
+        return [
+                { key: '1000001', value: '1000001', text: '1000001 - Müller, Bob' },
+                { key: '1000002', value: '1000002', text: '1000002 - Mara, Mayer' }
+        ];
+    };
+
     handleRecipientNumberChange(input) {
         console.log(input.target.value)
     }
@@ -41,6 +50,8 @@ class Dashboard extends Component {
 
         const { tableData, amount, user } = this.state;
         const userAndAmount = user.accountNr + " - [" + amount + "]";
+        const targetAccounts = this.getTargetAccounts();
+
         return (
             <Segment placeholder>
                 <Grid columns={2} relaxed='very' stackable>
@@ -50,9 +61,19 @@ class Dashboard extends Component {
                         </Header>
                         <Form>
                             <Form.Input label='Von' value={userAndAmount}/>
-                            <Form.Input  label='Zu' placeholder='Empfänger Zahlung' onChange={this.handleRecipientNumberChange}/>
+                            <Form.Input label='Zu' placeholder='Empfänger Zahlung' onChange={this.handleRecipientNumberChange}/>
+
+                            <Form.Input label='Empfänger der Zahlung'>
+                              <Dropdown
+                                placeholder='Konto wählen'
+                                fluid
+                                search
+                                selection
+                                options={targetAccounts}
+                              />
+                            </Form.Input>
                             <Form.Input  label='Betrag - CHF' placeholder='Betrag Zahlung' />
-                            <Button content='Überweisen' primary />
+                            <Button color='teal' size='large' content='Überweisen' />
                         </Form>
                     </Grid.Column>
 
@@ -95,6 +116,11 @@ class Dashboard extends Component {
                                 ))}
                             </Table.Body>
                         </Table>
+                        <Button color='teal' fluid size='large'
+                                content='Alle anzeigen'
+                                as={Link}
+                                to="/transactions"
+                        />
                     </Grid.Column>
                 </Grid>
             </Segment>

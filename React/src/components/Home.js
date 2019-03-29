@@ -12,8 +12,16 @@ const Home = ({isAuthenticated}: Props) => (
   <div>
     { isAuthenticated
       ? <div>
-          <p>Willkommen zurück!</p>
-          <Link to={'/dashboard'}>Zum Dashboard</Link>
+          <Header as='h1' color='teal' textAlign='center'>
+           Wilkommen zurück
+          </Header>
+          <div style={{ textAlign: 'center' }}>
+            <Button color='teal'  size='large'
+                    content='Zum Dashboard'
+                    as={Link}
+                    to="/dashboard"
+            /> {/*bist du nicht willig, so brauch ich ... inline styles xD */}
+          </div>
         </div>
       : <div>
         <Grid textAlign='center' style={{ height: '100%', marginTop: '2rem' }} verticalAlign='middle'>

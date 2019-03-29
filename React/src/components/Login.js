@@ -24,7 +24,9 @@ export type Props = {
 class Login extends React.Component<Props, *> {
   state = {
     login: "",
+    loginError: undefined,
     password: "",
+    passwordError: undefined,
     error: undefined,
     redirectToReferrer: false
   };
@@ -32,18 +34,38 @@ class Login extends React.Component<Props, *> {
   handleLoginChanged = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
       this.setState({ login: event.target.value });
+
+      this.setState({
+        loginError: !(event.target.value.length>=3)
+          ? "Das Login muss mindestens 3 Zeichen lang sein."
+          : undefined,});
     }
   };
 
   handlePasswordChanged = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
       this.setState({ password: event.target.value });
+
+      this.setState({
+        passwordError: !(event.target.value.length>=3)
+          ? "Das Passwort muss mindestens 3 Zeichen lang sein."
+          : undefined});
     }
   };
 
   handleSubmit = (event: Event) => {
     event.preventDefault();
     const { login, password } = this.state;
+
+    if(login.length<3 || password.length <3){
+      const errorText = "Pflichtfeld - bitte ausfüllen!";
+      if(login==="")
+        this.setState({ loginError: errorText });
+      if(password==="")
+        this.setState({ passwordError: errorText });
+      return;
+    }
+
     this.props.authenticate(login, password, error => {
       if (error) {
         this.setState({ error });
@@ -86,6 +108,11 @@ class Login extends React.Component<Props, *> {
                   onChange={this.handleLoginChanged}
                   value={this.state.login}
                 />
+                {this.state.loginError
+                  && <Message negative>
+                        <p>{this.state.loginError}</p>
+                      </Message>
+                }
                 <Form.Input
                   fluid
                   icon='lock'
@@ -95,12 +122,21 @@ class Login extends React.Component<Props, *> {
                   onChange={this.handlePasswordChanged}
                   value={this.state.password}
                 />
+                {this.state.passwordError
+                  && <Message negative>
+                        <p>{this.state.passwordError}</p>
+                      </Message>
+                }
 
                 <Button color='teal' fluid size='large' onClick={this.handleSubmit}>
                   Login
                 </Button>
 
-                {error && <p>Es ist ein Fehler aufgetreten!</p>}
+                {error && <Message negative>
+                            <Message.Header>Es ist ein Fehler aufgetreten!</Message.Header>
+                            <p>Bitte überprüfen Sie Ihre Eingaben.</p>
+                          </Message>
+                }
 
               </Segment>
             </Form>

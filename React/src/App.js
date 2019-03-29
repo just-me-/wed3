@@ -49,7 +49,8 @@ class App extends React.Component<Props, State> {
       this.state = {
         isAuthenticated: true,
         token,
-        user: JSON.parse(user)
+        user: JSON.parse(user),
+        activeItem: 'dashboard'
       };
     } else {
       this.state = {
@@ -87,7 +88,6 @@ class App extends React.Component<Props, State> {
     callback();
   };
 
-  state = { activeItem: 'home' }
   handleMenuClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
@@ -167,10 +167,13 @@ class App extends React.Component<Props, State> {
               <Login {...props} authenticate={this.authenticate} />
             )}
           />
-          <Route path="/signup" component={Signup} />
+          <Route
+            path="/signup"
+            render={props => (
+              <Signup {...props} authenticate={this.authenticate} />
+            )}
+          />
           {/*
-            This is a comment inside JSX! It's a bit ugly, but works fine.
-
             The following are protected routes that are only available for logged-in users. We also pass the user and token so
             these components can do API calls. PrivateRoute is not part of react-router but our own implementation.
           */}
