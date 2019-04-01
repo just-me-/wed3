@@ -39,7 +39,7 @@ class Dashboard extends Component {
     transferMoney(){
         api
             .transfer(this.state.recipientNr,this.state.transferSum,this.props.token)
-            .then(({}) =>{
+            .then(({amount}) =>{
                 console.log("transaction has been done successul");
                 this.componentDidMount();
             })
@@ -77,7 +77,7 @@ class Dashboard extends Component {
     };
 
     handleSubmit = (event: Event) => {
-        if(this.state.transferSum != 0 && this.state.recipientNr != null){
+        if(this.state.transferSum !== 0 && this.state.recipientNr != null){
             this.transferMoney()
         }
     };
