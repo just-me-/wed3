@@ -20,18 +20,18 @@ test.serial("second register should return false", async (t) => {
     }
 });
 
-test.serial("1000 amount after register", async (t) => {
+test.serial("1000 accountSaldo after register", async (t) => {
     let accountA = await accountService.get("1000001");
-    t.is(accountA.amount, 1000);
+    t.is(accountA.accountSaldo, 1000);
     let accountB = await accountService.get("1000002");
-    t.is(accountB.amount, 1000);
+    t.is(accountB.accountSaldo, 1000);
 });
 
 
 test.serial("transaction above limit", async (t) => {
     await accountService.addTransaction("1000001", "1000002", 1500, null);
-    t.is((await accountService.get("1000001")).amount, 1000);
-    t.is((await accountService.get("1000002")).amount, 1000);
+    t.is((await accountService.get("1000001")).accountSaldo, 1000);
+    t.is((await accountService.get("1000002")).accountSaldo, 1000);
 });
 
 test.serial("transaction wrong target", async (t) => {
@@ -39,7 +39,7 @@ test.serial("transaction wrong target", async (t) => {
         await accountService.addTransaction("1000001", "XXXXXXXX", 500, null);
     }
     catch (error) {
-        t.is((await accountService.get("1000001")).amount, 1000);
+        t.is((await accountService.get("1000001")).accountSaldo, 1000);
     }
 });
 
@@ -48,12 +48,12 @@ test.serial("transaction wrong from", async (t) => {
         await accountService.addTransaction("XXXXXXXX", "1000002", 500, null);
     }
     catch (error) {
-        t.is((await accountService.get("1000002")).amount, 1000);
+        t.is((await accountService.get("1000002")).accountSaldo, 1000);
     }
 });
 
 test.serial("transaction of 500", async (t) => {
     await accountService.addTransaction("1000001", "1000002", 500, null);
-    t.is((await accountService.get("1000001")).amount, 500);
-    t.is((await accountService.get("1000002")).amount, 1500);
+    t.is((await accountService.get("1000001")).accountSaldo, 500);
+    t.is((await accountService.get("1000002")).accountSaldo, 1500);
 });

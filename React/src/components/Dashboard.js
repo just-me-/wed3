@@ -15,24 +15,36 @@ class Dashboard extends Component {
         const user = sessionStorage.getItem("user");
         this.state = {
             tableData: [],
-            amount: null,
+            accountSaldo: null,
+            transferSum: 0,
             user: JSON.parse(user),
             recipient: null,
-            recipientNr: 0
+            recipientNr: 0,
+            potentialRcpt: 0
         }
     }
 
-    checkIfAccountExists(accountNumber){
+    checkIfAccountExists(){
         api
-            .getAccount(accountNumber, this.props.token)
+            .getAccount(this.state.potentialRcpt, this.props.token)
             .then(({accountNr,owner}) => {
-                console.log(owner);
                 this.setState({
+                    recipientNr: accountNr,
                     recipient: owner
                 })
             })
             .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
     };
+
+    transferMoney(){
+        api
+            .transfer(this.state.recipientNr,this.state.transferSum,this.props.token)
+            .then(({}) =>{
+                console.log("transaction has been done successul");
+                this.componentDidMount();
+            })
+            .catch(error => console("Ups, ein Fehler ist bei der Transaktion aufgetreten", error));
+    }
 
     getTargetAccounts(){
         // 2do...
@@ -42,14 +54,38 @@ class Dashboard extends Component {
         ];
     };
 
-    handleRecipientNumberChange(input) {
-        console.log(input.target.value)
-    }
+    handleRecipientNumberChange = (event: Event) => {
+        this.setState({
+            potentialRcpt: event.target.value
+        });
+        if(this.state.potentialRcpt.length === 7 ){
+            this.checkIfAccountExists();
+            if(this.state.recipient != null){
+                event.target.value = this.state.recipientNr + " - " + this.state.recipient.firstname + " " + this.state.recipient.lastname
+            }
+        }
+    };
+
+    handleAmountChange = (event: Event) => {
+        if(event.target.value < this.state.accountSaldo) {
+            this.setState({
+                transferSum: event.target.value
+            });
+        } else {
+            alert("Amount is bigger than account sum")
+        }
+    };
+
+    handleSubmit = (event: Event) => {
+        if(this.state.transferSum != 0 && this.state.recipientNr != null){
+            this.transferMoney()
+        }
+    };
 
     render() {
 
-        const { tableData, amount, user } = this.state;
-        const userAndAmount = user.accountNr + " - [" + amount + "]";
+        const { tableData, accountSaldo, user } = this.state;
+        const userAndAmount = user.accountNr + " - [" + accountSaldo + "]";
         const targetAccounts = this.getTargetAccounts();
 
         return (
@@ -59,7 +95,7 @@ class Dashboard extends Component {
                         <Header as='h1' color='teal' textAlign='center'>
                             Neue Bewegungen
                         </Header>
-                        <Form>
+                        <Form onSubmit={this.handleSubmit}>
                             <Form.Input label='Von' value={userAndAmount}/>
                             <Form.Input label='Zu' placeholder='Empfänger Zahlung' onChange={this.handleRecipientNumberChange}/>
 
@@ -72,7 +108,7 @@ class Dashboard extends Component {
                                 options={targetAccounts}
                               />
                             </Form.Input>
-                            <Form.Input  label='Betrag - CHF' placeholder='Betrag Zahlung' />
+                            <Form.Input  label='Betrag - CHF' placeholder='Betrag Zahlung' onChange={this.handleAmountChange}/>
                             <Button color='teal' size='large' content='Überweisen' />
                         </Form>
                     </Grid.Column>
@@ -141,7 +177,7 @@ class Dashboard extends Component {
             .getAccountDetails(this.props.token)
             .then(({amount}) => {
                 this.setState({
-                    amount: amount
+                    accountSaldo: amount
                 });
             })
             .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error))

@@ -169,8 +169,8 @@ class AllTransactions extends Component {
                   Zu
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  sorted={column === 'amount' ? direction : null}
-                  onClick={this.handleSort('amount')}
+                  sorted={column === 'accountSaldo' ? direction : null}
+                  onClick={this.handleSort('accountSaldo')}
                 >
                   Betrag
                 </Table.HeaderCell>
@@ -213,6 +213,5 @@ class AllTransactions extends Component {
   }
 
 }
-
 
 export default AllTransactions
