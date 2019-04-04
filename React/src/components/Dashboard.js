@@ -46,20 +46,13 @@ class Dashboard extends Component {
             .catch(error => console("Ups, ein Fehler ist bei der Transaktion aufgetreten", error));
     }
 
-    getTargetAccounts(){
-        // 2do...
-        return [
-                { key: '1000001', value: '1000001', text: '1000001 - Müller, Bob' },
-                { key: '1000002', value: '1000002', text: '1000002 - Mara, Mayer' }
-        ];
-    };
-
     handleRecipientNumberChange = (event: Event) => {
         this.setState({
             potentialRcpt: event.target.value
         });
-        if(this.state.potentialRcpt.length === 7 ){
-            this.checkIfAccountExists();
+        // enweder sauber über state (ink callback) oder einfach gleich event überall nuten.. hab letzteres genommen
+        if(event.target.value.length === 7 ){
+            this.checkIfAccountExists(); // das hier läuft auch asynchron... also eig besser in state auslagern
             if(this.state.recipient != null){
                 event.target.value = this.state.recipientNr + " - " + this.state.recipient.firstname + " " + this.state.recipient.lastname
             }
@@ -86,7 +79,6 @@ class Dashboard extends Component {
 
         const { tableData, accountSaldo, user } = this.state;
         const userAndAmount = user.accountNr + " - [" + accountSaldo + "]";
-        const targetAccounts = this.getTargetAccounts();
 
         return (
             <Segment placeholder>
@@ -97,17 +89,7 @@ class Dashboard extends Component {
                         </Header>
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Input label='Von' value={userAndAmount}/>
-                            <Form.Input label='Zu' placeholder='Empfänger Zahlung' onChange={this.handleRecipientNumberChange}/>
-
-                            <Form.Input label='Empfänger der Zahlung'>
-                              <Dropdown
-                                placeholder='Konto wählen'
-                                fluid
-                                search
-                                selection
-                                options={targetAccounts}
-                              />
-                            </Form.Input>
+                            <Form.Input label='Zu' placeholder='Empfänger Zahlung' onBlur={this.handleRecipientNumberChange}/>
                             <Form.Input  label='Betrag - CHF' placeholder='Betrag Zahlung' onChange={this.handleAmountChange}/>
                             <Button color='teal' size='large' content='Überweisen' />
                         </Form>
@@ -165,10 +147,10 @@ class Dashboard extends Component {
 
     componentDidMount() {
         api
-            .getTransactions(this.props.token, undefined, undefined, this.state.countTrans)
+            .getTransactions(this.props.token, undefined, undefined, 5)
             .then(({ result, query }) => {
                 this.setState({
-                    tableData: result.slice(0,5)
+                    tableData: result
                 });
             })
             .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
