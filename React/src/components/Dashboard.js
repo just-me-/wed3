@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import {Link} from "react-router-dom";
-import { Table, Grid, Header, Segment, Button, Form , Dropdown} from 'semantic-ui-react'
+import { Table, Grid, Header, Segment, Button, Form} from 'semantic-ui-react'
 
 import * as api from "../api";
 import {DateFormat} from "./DateFormat";
@@ -20,17 +20,18 @@ class Dashboard extends Component {
             user: JSON.parse(user),
             recipient: null,
             recipientNr: 0,
-            potentialRcpt: 0
+            recipientInput: ""
         }
     }
 
-    checkIfAccountExists(){
+    loadAccount(account){
         api
-            .getAccount(this.state.potentialRcpt, this.props.token)
+            .getAccount(account, this.props.token)
             .then(({accountNr,owner}) => {
                 this.setState({
                     recipientNr: accountNr,
-                    recipient: owner
+                    recipient: owner,
+                    recipientInput: accountNr +" - "+ owner.firstname +" "+ owner.lastname
                 })
             })
             .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
@@ -47,16 +48,13 @@ class Dashboard extends Component {
     }
 
     handleRecipientNumberChange = (event: Event) => {
-        this.setState({
-            potentialRcpt: event.target.value
-        });
-        // enweder sauber über state (ink callback) oder einfach gleich event überall nuten.. hab letzteres genommen
-        if(event.target.value.length === 7 ){
-            this.checkIfAccountExists(); // das hier läuft auch asynchron... also eig besser in state auslagern
-            if(this.state.recipient != null){
-                event.target.value = this.state.recipientNr + " - " + this.state.recipient.firstname + " " + this.state.recipient.lastname
-            }
-        }
+      const account = event.target.value;
+      this.setState({
+          recipientInput: account
+      });
+      if(account.length === 7){
+        this.loadAccount(account);
+      }
     };
 
     handleAmountChange = (event: Event) => {
@@ -77,7 +75,7 @@ class Dashboard extends Component {
 
     render() {
 
-        const { tableData, accountSaldo, user } = this.state;
+        const { tableData, accountSaldo, user, recipientInput } = this.state;
         const userAndAmount = user.accountNr + " - [" + accountSaldo + "]";
 
         return (
@@ -89,7 +87,7 @@ class Dashboard extends Component {
                         </Header>
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Input label='Von' value={userAndAmount}/>
-                            <Form.Input label='Zu' placeholder='Empfänger Zahlung' onBlur={this.handleRecipientNumberChange}/>
+                            <Form.Input label='Zu' placeholder='Empfänger Zahlung' onChange={this.handleRecipientNumberChange} value={recipientInput}/>
                             <Form.Input  label='Betrag - CHF' placeholder='Betrag Zahlung' onChange={this.handleAmountChange}/>
                             <Button color='teal' size='large' content='Überweisen' />
                         </Form>
