@@ -36,7 +36,7 @@ async function createAccount(ownerId, accountNr, creationDate) {
     return {
         ownerId,
         accountNr,
-        account: config.account.initialBalance
+        amount: config.account.initialBalance
     };
 }
 
@@ -72,11 +72,11 @@ async function addTransaction(from, target, amount, date = null) {
 
         if (from !== target
             && !isNaN(amount) && amount > 0
-            && fromAccount && fromAccount.account >= amount
+            && fromAccount && fromAccount.amount >= amount
             && targetAccount) {
 
-            let fromAccountAmount = fromAccount.account - Number(amount);
-            let targetAccountAmount = targetAccount.account + Number(amount);
+            let fromAccountAmount = fromAccount.amount - Number(amount);
+            let targetAccountAmount = targetAccount.amount + Number(amount);
 
             const transactionFrom = await toQuery(finish => {
                 dbTransaction.insert(createTransactionObj(from, target, -amount, fromAccountAmount, date), finish);
@@ -86,10 +86,10 @@ async function addTransaction(from, target, amount, date = null) {
             });
 
             const affectedFromAccount = await toCountedQuery(finish => {
-                db.update({accountNr: from}, {$set: {account: fromAccountAmount}}, finish);
+                db.update({accountNr: from}, {$set: {amount: fromAccountAmount}}, finish);
             });
             const affectedTargetAccount = await toCountedQuery(finish => {
-                db.update({accountNr: target}, {$set: {account: targetAccountAmount}}, finish);
+                db.update({accountNr: target}, {$set: {amount: targetAccountAmount}}, finish);
             });
 
             delete transactionFrom._id;
@@ -107,8 +107,8 @@ async function getTransactions(accountId, count, skip, fromDate, toDate) {
 
     let find = {
         $or: [
-            {from: accountId, account: {$lte: 0}},
-            {target: accountId, account: {$gte: 0}}
+            {from: accountId, amount: {$lte: 0}},
+            {target: accountId, amount: {$gte: 0}}
         ],
 		$and: [
 			{total: {$exists: true}}
