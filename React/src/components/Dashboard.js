@@ -15,7 +15,7 @@ class Dashboard extends Component {
         const user = sessionStorage.getItem("user");
         this.state = {
             tableData: [],
-            accountSaldo: null,
+            amount: null,
             transferSum: 0,
             user: JSON.parse(user),
             recipient: null,
@@ -58,7 +58,7 @@ class Dashboard extends Component {
     };
 
     handleAmountChange = (event: Event) => {
-        if(event.target.value < this.state.accountSaldo) {
+        if(event.target.value < this.state.amount) {
             this.setState({
                 transferSum: event.target.value
             });
@@ -75,8 +75,8 @@ class Dashboard extends Component {
 
     render() {
 
-        const { tableData, accountSaldo, user, recipientInput } = this.state;
-        const userAndAmount = user.accountNr + " - [" + accountSaldo + "]";
+        const { tableData, amount, user, recipientInput } = this.state;
+        const userAndAmount = user.accountNr + " - [" + amount + "]";
 
         return (
             <Segment placeholder>
@@ -157,7 +157,7 @@ class Dashboard extends Component {
             .getAccountDetails(this.props.token)
             .then(({amount}) => {
                 this.setState({
-                    accountSaldo: amount
+                    amount: amount
                 });
             })
             .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error))

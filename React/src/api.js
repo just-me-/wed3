@@ -77,7 +77,7 @@ export function transfer(
 ): Promise<TransferResult> {
   return postAuthenticatedJson("/accounts/transactions", token, {
     target,
-    amount: amount
+    amount
   }).then(parseJSON);
 }
 
