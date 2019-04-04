@@ -66,7 +66,6 @@ class AllTransactions extends Component {
     api
       .getTransactions(this.props.token, dateFrom, dateTo, this.state.countTrans)
       .then(({ result, query }) => {
-        console.log("TransResult OnUpdate", result, query);  //TMP
         this.setState({
              tableData: result
          });
@@ -206,7 +205,6 @@ class AllTransactions extends Component {
      api
        .getTransactions(this.props.token, undefined, undefined, this.state.countTrans)
        .then(({ result, query }) => {
-         console.log("TransResult OnLoad", result, query);  //TMP
          this.setState({
               tableData: result
           });

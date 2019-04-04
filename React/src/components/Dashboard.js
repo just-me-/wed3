@@ -145,7 +145,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         api
-            .getTransactions(this.props.token, undefined, undefined, 5)
+            .getTransactions(this.props.token, undefined, undefined, 3)
             .then(({ result, query }) => {
                 this.setState({
                     tableData: result
