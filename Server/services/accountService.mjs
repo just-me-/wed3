@@ -22,7 +22,7 @@ function createTransactionObj(from, target, amount, total, date) {
     return {
         from,
         target,
-        amount: accountSaldo,
+        amount,
         total,
         date: date ? date : new Date()
     };
@@ -36,7 +36,7 @@ async function createAccount(ownerId, accountNr, creationDate) {
     return {
         ownerId,
         accountNr,
-        accountSaldo: config.account.initialBalance
+        account: config.account.initialBalance
     };
 }
 
@@ -72,11 +72,11 @@ async function addTransaction(from, target, amount, date = null) {
 
         if (from !== target
             && !isNaN(amount) && amount > 0
-            && fromAccount && fromAccount.accountSaldo >= amount
+            && fromAccount && fromAccount.account >= amount
             && targetAccount) {
 
-            let fromAccountAmount = fromAccount.accountSaldo - Number(amount);
-            let targetAccountAmount = targetAccount.accountSaldo + Number(amount);
+            let fromAccountAmount = fromAccount.account - Number(amount);
+            let targetAccountAmount = targetAccount.account + Number(amount);
 
             const transactionFrom = await toQuery(finish => {
                 dbTransaction.insert(createTransactionObj(from, target, -amount, fromAccountAmount, date), finish);
@@ -86,10 +86,10 @@ async function addTransaction(from, target, amount, date = null) {
             });
 
             const affectedFromAccount = await toCountedQuery(finish => {
-                db.update({accountNr: from}, {$set: {accountSaldo: fromAccountAmount}}, finish);
+                db.update({accountNr: from}, {$set: {account: fromAccountAmount}}, finish);
             });
             const affectedTargetAccount = await toCountedQuery(finish => {
-                db.update({accountNr: target}, {$set: {accountSaldo: targetAccountAmount}}, finish);
+                db.update({accountNr: target}, {$set: {account: targetAccountAmount}}, finish);
             });
 
             delete transactionFrom._id;
@@ -107,8 +107,8 @@ async function getTransactions(accountId, count, skip, fromDate, toDate) {
 
     let find = {
         $or: [
-            {from: accountId, accountSaldo: {$lte: 0}},
-            {target: accountId, accountSaldo: {$gte: 0}}
+            {from: accountId, account: {$lte: 0}},
+            {target: accountId, account: {$gte: 0}}
         ],
 		$and: [
 			{total: {$exists: true}}
