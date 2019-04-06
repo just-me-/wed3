@@ -1,39 +1,65 @@
 <!-- TODO: Add ng specific directives/validation settings and add styling -->
-<form (ngSubmit)="doRegister(null)">
-  <label>
-    First name:
-    <div>
-      <input pattern=".{2,}" placeholder="First name" type="text" name="firstname">
-      <div>Please specify your first name.</div>
+<form (ngSubmit)="doRegister(registerForm)" #registerForm="ngForm">
+  <div class="form-group row">
+    <label for="firstname" class="col-sm-3 col-form-label">
+      First name:
+    </label>
+    <div class="col-sm-9">
+      <input ngModel pattern=".{2,}" placeholder="First name" type="text" name="firstname" class="form-control" id="firstname">
+      <ngb-alert [dismissible]="false">
+        Please specify your first name.
+      </ngb-alert>
     </div>
-  </label>
-  <label>
-    Last name:
-    <div>
-      <input pattern=".{2,}" placeholder="Last name" type="text" name="lastname">
-      <div>Please specify your last name.</div>
+  </div>
+
+  <div class="form-group row">
+    <label for="lastname" class="col-sm-3 col-form-label">
+      Last name:
+    </label>
+    <div class="col-sm-9">
+      <input ngModel pattern=".{2,}" placeholder="Last name" type="text" name="lastname" class="form-control" id="lastname">
+      <ngb-alert [dismissible]="false">
+        Please specify your last name.
+      </ngb-alert>
     </div>
-  </label>
-  <label>
-    User name:
-    <div>
-      <input pattern=".{3,}" placeholder="User" type="text" name="login">
-      <div>Please specify your login, at least three characters.</div>
+  </div>
+
+  <div class="form-group row">
+    <label for="user" class="col-sm-3 col-form-label">
+      User name:
+    </label>
+    <div class="col-sm-9">
+      <input ngModel pattern=".{3,}" placeholder="User" type="text" name="login" class="form-control" id="user">
+      <ngb-alert [dismissible]="false">
+        Please specify your user name.
+      </ngb-alert>
     </div>
-  </label>
-  <label>
-    Password:
-    <div>
-      <input pattern=".{3,}" placeholder="Password" type="password" name="password">
-      <div>Please specify your password, at least three characters.</div>
+  </div>
+
+  <div class="form-group row">
+    <label for="password" class="col-sm-3 col-form-label">
+      Password:
+    </label>
+    <div class="col-sm-9">
+      <input ngModel pattern=".{3,}" placeholder="Password" type="password" name="password" class="form-control" id="password">
+      <ngb-alert [dismissible]="false">
+        Please specify your password, at least three characters.
+      </ngb-alert>
     </div>
-  </label>
-  <label>
-    Confirm Password:
-    <div>
-      <input pattern=".{3,}" placeholder="Password" type="password" name="passwordConfirm">
-      <div>Please confirm your password.</div>
+  </div>
+
+  <div class="form-group row">
+    <label for="passwordConfirm" class="col-sm-3 col-form-label">
+      Confirm password:
+    </label>
+    <div class="col-sm-9">
+      <input ngModel pattern=".{3,}" placeholder="Password" type="password" name="passwordConfirm" class="form-control" id="passwordConfirm">
+      <ngb-alert [dismissible]="false">
+        Please confirm your password.
+      </ngb-alert>
     </div>
-  </label>
-  <button>Register</button>
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-block">Register</button>
+  <p>Alrdy registered? <a href="/welcome">Login here</a></p>
 </form>
