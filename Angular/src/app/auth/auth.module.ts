@@ -14,7 +14,7 @@ import {TokenInterceptor} from './resources/token-interceptor';
 import {AuthResourceService} from './resources/auth-resource.service';
 
 import {SecurityTokenStore} from './services/credential-management/security-token-store';
-
+import {AuthGuardService} from './services/auth-guard.service';
 
 const EXPORTED_DECLARATIONS = [
   LoginComponent, LogoutComponent, RegisterComponent
@@ -47,6 +47,7 @@ export class AuthModule {
         // For Single-Providers use {providedIn: 'root'} instead.
 
         // TODO: Add services/guards/... here or use {providedIn: 'root'} directly on those classes
+        AuthGuardService,
         SecurityTokenStore,
         {
           provide: HTTP_INTERCEPTORS,
