@@ -4,6 +4,8 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import {SharedModule} from '@app/shared';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 import {LoginComponent} from './components/login.component';
 import {LogoutComponent} from './components/logout.component';
 import {RegisterComponent} from './components/register.component';
@@ -30,7 +32,8 @@ const EXPORTS = [
   declarations: INTERNAL_DECLARATIONS,
   imports: [
     FormsModule,
-    SharedModule
+    SharedModule,
+    NgbModule,
   ],
   exports: EXPORTS,
   providers: [AuthResourceService]

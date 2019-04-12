@@ -1,24 +1,30 @@
 <!-- TODO: Add ng specific directives/validation settings and add styling -->
 <form (ngSubmit)="doLogin(loginForm)" #loginForm="ngForm">
-  <div  class="form-group">
-    <label>
+  <div class="form-group row">
+    <label for="login" class="col-sm-3 col-form-label">
       User name:
-      <div>
-        <input pattern=".{3,}" placeholder="User" type="text" name="login" ngModel >
-        <p class="alert alert-warning">Please specify your login, at least three characters.</p>
-      </div>
     </label>
-  </div>
-  <div  class="form-group">
-  <label>
-    Password:
-    <div>
-      <input pattern=".{3,}" placeholder="Password" type="password" name="password" ngModel >
-      <div>Please specify your login, at least three characters.</div>
+    <div class="col-sm-9">
+      <input pattern=".{3,}" placeholder="User" type="text" name="login" ngModel class="form-control" id="login">
+      <ngb-alert [dismissible]="false">
+        Please specify your login, at least three characters.
+      </ngb-alert>
     </div>
-  </label>
   </div>
-  <button type="submit" class="btn btn-primary">Login</button>
+  <div class="form-group row">
+  <label for="password" class="col-sm-3 col-form-label">
+    Password:
+  </label>
+  <div class="col-sm-9">
+    <input pattern=".{3,}" placeholder="Password" type="password" name="password" ngModel class="form-control" id="password">
+    <ngb-alert [dismissible]="false">
+      Please specify your login, at least three characters.
+    </ngb-alert>
+  </div>
+  </div>
+  <button type="submit" class="btn btn-primary btn-block">Login</button>
+
+  <p>No Login? <a href="/welcome/register">Register here</a></p>
 </form>
 <div>
   <p>If you do not have an account, please register<span></span></p>

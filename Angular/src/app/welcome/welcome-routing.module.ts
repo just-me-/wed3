@@ -11,7 +11,7 @@ const appRoutes: Routes = [
     path: 'welcome',
     component: WelcomeComponent,
     // TODO: Add guard and routing (Register/Login) here...
-    children: [
+    children: [ // sub paths... e.g. /welcome/register
       {path: 'register', component: RegisterComponent},
       {path: '', component: LoginComponent}
     ]

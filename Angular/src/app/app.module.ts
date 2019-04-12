@@ -9,6 +9,8 @@ import localeDeCHExtra from '@angular/common/locales/extra/de-CH';
 
 import {CoreModule} from '@app/core';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 import {WelcomeModule} from './welcome/welcome.module';
 import {AuthModule} from './auth/auth.module';
 
@@ -28,6 +30,7 @@ import {AppComponent} from './app.component';
     CoreModule.forRoot(),
     AuthModule.forRoot(),
     WelcomeModule.forRoot(),
+    NgbModule.forRoot(),
 
     AppRoutingModule
   ],
