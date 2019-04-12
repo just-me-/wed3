@@ -3,10 +3,10 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 
 import {SharedModule} from '@app/shared';
-
 import {AuthModule} from '../auth/auth.module';
 
 import {DashbaordRoutingModule} from './dashboard-routing.module';
+
 
 
 const EXPORTED_DECLARATIONS = [
