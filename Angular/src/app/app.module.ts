@@ -12,6 +12,7 @@ import {CoreModule} from '@app/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {WelcomeModule} from './welcome/welcome.module';
+//import {DashboardModule} from './dashboard/dashboard.module';
 import {AuthModule} from './auth/auth.module';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -30,6 +31,7 @@ import {AppComponent} from './app.component';
     CoreModule.forRoot(),
     AuthModule.forRoot(),
     WelcomeModule.forRoot(),
+    //DashboardModule.forRoot(),
     NgbModule.forRoot(),
 
     AppRoutingModule

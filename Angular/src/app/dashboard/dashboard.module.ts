@@ -7,10 +7,11 @@ import {AuthModule} from '../auth/auth.module';
 
 import {DashbaordRoutingModule} from './dashboard-routing.module';
 
-
+import {DashboardComponent} from './components/dashboard/dashboard.component';
 
 const EXPORTED_DECLARATIONS = [
   // Declarations (Components / Directives) which can be used outside the Module
+  DashboardComponent
 ];
 const INTERNAL_DECLARATIONS = [
   ...EXPORTED_DECLARATIONS

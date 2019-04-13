@@ -49,7 +49,6 @@ export class AuthModule {
         // DI Multi-Providers (Services, Tokens, Factories...) to be used globally and instantiated only once.
         // For Single-Providers use {providedIn: 'root'} instead.
 
-        // TODO: Add services/guards/... here or use {providedIn: 'root'} directly on those classes
         AuthGuardService,
         SecurityTokenStore,
         {

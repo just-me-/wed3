@@ -10,7 +10,7 @@ const appRoutes: Routes = [
     path: 'dashboard',
     loadChildren: './dashboard/dashboard.module#DashboardModule',
     canLoad: [ AuthGuard ],
-    canActivate: [ AuthGuard ] // TODO: Add guard for lazy loaded Dashboard module here...
+    canActivate: [ AuthGuard ]
   },
 
   // Welcome module is eagerly loaded.
