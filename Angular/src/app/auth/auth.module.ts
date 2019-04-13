@@ -4,6 +4,8 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import {SharedModule} from '@app/shared';
 
+import { CommonModule } from '@angular/common';
+
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {LoginComponent} from './components/login.component';
@@ -34,6 +36,7 @@ const EXPORTS = [
     FormsModule,
     SharedModule,
     NgbModule,
+    CommonModule,
   ],
   exports: EXPORTS,
   providers: [AuthResourceService]

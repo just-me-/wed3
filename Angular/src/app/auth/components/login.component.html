@@ -5,26 +5,30 @@
       User name:
     </label>
     <div class="col-sm-9">
-      <input pattern=".{3,}" placeholder="User" type="text" name="login" ngModel class="form-control" id="login">
-      <ngb-alert [dismissible]="false">
+      <input pattern=".{3,}" placeholder="User" type="text" name="login"
+             ngModel class="form-control" id="login" required #login="ngModel">
+      <ngb-alert [dismissible]="false" [hidden]="login.valid || login.pristine">
         Please specify your login, at least three characters.
       </ngb-alert>
     </div>
   </div>
   <div class="form-group row">
-  <label for="password" class="col-sm-3 col-form-label">
-    Password:
-  </label>
-  <div class="col-sm-9">
-    <input pattern=".{3,}" placeholder="Password" type="password" name="password" ngModel class="form-control" id="password">
-    <ngb-alert [dismissible]="false">
-      Please specify your login, at least three characters.
+    <label for="password" class="col-sm-3 col-form-label">
+      Password:
+    </label>
+    <div class="col-sm-9">
+      <input pattern=".{3,}" placeholder="Password" type="password" name="password"
+             ngModel class="form-control" id="password" required #password="ngModel">
+      <ngb-alert [dismissible]="false" [hidden]="password.valid || password.pristine">
+        Please specify your login, at least three characters.
+      </ngb-alert>
+    </div>
+  </div>
+  <div *ngIf="hasFailed === true">
+    <ngb-alert [dismissible]="false" type="danger">
+      Ups...Es ist ein Fehler aufgetreten. Bitte erneut versuchen :-)
     </ngb-alert>
   </div>
-  </div>
-  <ngb-alert [dismissible]="false" type="danger">
-    Ups...Es ist ein Fehler aufgetreten. Bitte erneut versuchen :-)
-  </ngb-alert>
   <button type="submit" class="btn btn-primary btn-block">Login</button>
 
   <p>No Login? <a href="/welcome/register">Register here</a></p>

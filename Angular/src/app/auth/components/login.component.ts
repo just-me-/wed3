@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   public password: string;
 
   public isProcessing = false;
+  public hasFailed = false;
 
   constructor(private autSvc: AuthService, private navigationSvc: NavigationService, route: ActivatedRoute) {
     route.params.subscribe(
@@ -45,7 +46,13 @@ export class LoginComponent implements OnInit {
     //console.log("Hello", f.value.login, f.value.password);
     if (f && f.valid) {
       this.isProcessing = true;
-      this.autSvc.login(new LoginInfo(f.value.login, f.value.password));
+      try {
+        this.autSvc.login(new LoginInfo(f.value.login, f.value.password));
+      } catch {
+        this.hasFailed = true;
+        // hmm iwie doch ned so ganz
+      }
+      this.hasFailed = true; // hmm dann halt so... TMP => 2Do x'D
     }
     return false;
   }
