@@ -6,8 +6,9 @@ import { Table, Grid, Header, Segment, Button, Form} from 'semantic-ui-react'
 
 import * as api from "../api";
 import {DateFormat} from "./DateFormat";
-//import type { User } from "./api";
-//import {Menu} from "semantic-ui-react/dist/commonjs/collections/Menu/Menu";
+
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 class Dashboard extends Component {
     constructor(){
@@ -34,17 +35,24 @@ class Dashboard extends Component {
                     recipientInput: accountNr +" - "+ owner.firstname +" "+ owner.lastname
                 })
             })
-            .catch(error => console.log("Ups, ein Fehler ist aufgetreten", error));
+            .catch(error => {
+              console.log("Ups, ein Fehler ist aufgetreten...", error);
+              NotificationManager.error('Account konnte nicht geladen werden!');
+              this.setState({ // reset...
+                  recipientNr: 0,
+                  recipient: null
+              })
+            });
     };
 
     transferMoney(){
         api
             .transfer(this.state.recipientNr,this.state.transferSum,this.props.token)
             .then(({amount}) =>{
-                console.log("transaction has been done successul");
+                NotificationManager.success('Betrag wurde erfolgreich überwiesen.');
                 this.componentDidMount();
             })
-            .catch(error => console("Ups, ein Fehler ist bei der Transaktion aufgetreten", error));
+            .catch(error => console.log("Ups, ein Fehler ist bei der Transaktion aufgetreten", error));
     }
 
     handleRecipientNumberChange = (event: Event) => {
@@ -63,13 +71,17 @@ class Dashboard extends Component {
                 transferSum: event.target.value
             });
         } else {
-            alert("Amount is bigger than account sum")
+            NotificationManager.error('Amount is bigger than account sum');
         }
     };
 
     handleSubmit = (event: Event) => {
         if(this.state.transferSum !== 0 && this.state.recipientNr != null){
+          if(this.state.transferSum >= 0.05) {
             this.transferMoney()
+          } else {
+            NotificationManager.error('Der Mindestbetrag ist 0.05 CHF.');
+          }
         }
     };
 
@@ -139,6 +151,7 @@ class Dashboard extends Component {
                         />
                     </Grid.Column>
                 </Grid>
+                <NotificationContainer/>
             </Segment>
         )
     }
