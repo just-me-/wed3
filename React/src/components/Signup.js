@@ -77,7 +77,7 @@ class Signup extends React.Component<Props, State> {
 
   handleSubmit = (event: Event) => {
     event.preventDefault();
-    if(this.state.errorMsg.length)
+    if(this.state.errorMsg && this.state.errorMsg.length)
       return;
 
     const { login, firstname, lastname, password, confirmPassword} = this.state;
