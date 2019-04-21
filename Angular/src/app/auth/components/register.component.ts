@@ -20,6 +20,9 @@ export class RegisterComponent implements OnInit {
 
   public isProcessing = false;
 
+  public passwordConfirm = "";
+  public pwConfirmIsValid = false;
+
   constructor(private autSvc: AuthService, private navigationSvc: NavigationService) {
   }
 
@@ -33,6 +36,20 @@ export class RegisterComponent implements OnInit {
       });
   }
 
+  public setPw(newValue) {
+    this.password = newValue;
+    this.validateConfPw();
+  }
+
+  public setConfPw(newValue) {
+    this.passwordConfirm = newValue;
+    this.validateConfPw();
+  }
+
+  private validateConfPw() {
+    this.pwConfirmIsValid = (this.passwordConfirm === this.password);
+  }
+
   public doRegister(f: NgForm): boolean {
     if (f && f.valid) {
       this.isProcessing = true;
@@ -42,6 +59,12 @@ export class RegisterComponent implements OnInit {
         f.value.firstname,
         f.value.lastname));
     }
+
+    f.form.controls.login.markAsDirty();
+    f.form.controls.password.markAsDirty();
+    f.form.controls.passwordConfirm.markAsDirty();
+    f.form.controls.firstname.markAsDirty();
+    f.form.controls.lastname.markAsDirty();
     return false;
   }
 }

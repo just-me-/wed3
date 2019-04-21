@@ -5,8 +5,9 @@
       First name:
     </label>
     <div class="col-sm-9">
-      <input ngModel pattern=".{2,}" placeholder="First name" type="text" name="firstname" class="form-control" id="firstname">
-      <ngb-alert [dismissible]="false">
+      <input ngModel pattern=".{2,}" placeholder="First name" type="text" name="firstname" class="form-control" id="firstname"
+      #firstname="ngModel" required>
+      <ngb-alert [dismissible]="false" [hidden]="firstname.valid || firstname.pristine">
         Please specify your first name.
       </ngb-alert>
     </div>
@@ -17,8 +18,9 @@
       Last name:
     </label>
     <div class="col-sm-9">
-      <input ngModel pattern=".{2,}" placeholder="Last name" type="text" name="lastname" class="form-control" id="lastname">
-      <ngb-alert [dismissible]="false">
+      <input ngModel pattern=".{2,}" placeholder="Last name" type="text" name="lastname" class="form-control" id="lastname"
+      #lastname="ngModel" required>
+      <ngb-alert [dismissible]="false" [hidden]="lastname.valid || lastname.pristine">
         Please specify your last name.
       </ngb-alert>
     </div>
@@ -29,8 +31,9 @@
       User name:
     </label>
     <div class="col-sm-9">
-      <input ngModel pattern=".{3,}" placeholder="User" type="text" name="login" class="form-control" id="user">
-      <ngb-alert [dismissible]="false">
+      <input ngModel pattern=".{3,}" placeholder="User" type="text" name="login" class="form-control" id="user"
+      #login="ngModel" required>
+      <ngb-alert [dismissible]="false" [hidden]="login.valid || login.pristine">
         Please specify your user name.
       </ngb-alert>
     </div>
@@ -41,8 +44,9 @@
       Password:
     </label>
     <div class="col-sm-9">
-      <input ngModel pattern=".{3,}" placeholder="Password" type="password" name="password" class="form-control" id="password">
-      <ngb-alert [dismissible]="false">
+      <input ngModel pattern=".{3,}" placeholder="Password" type="password" name="password" class="form-control" id="password"
+      #password="ngModel" required (ngModelChange)="setPw($event)">
+      <ngb-alert [dismissible]="false" [hidden]="password.valid || password.pristine">
         Please specify your password, at least three characters.
       </ngb-alert>
     </div>
@@ -53,8 +57,9 @@
       Confirm password:
     </label>
     <div class="col-sm-9">
-      <input ngModel pattern=".{3,}" placeholder="Password" type="password" name="passwordConfirm" class="form-control" id="passwordConfirm">
-      <ngb-alert [dismissible]="false">
+      <input ngModel placeholder="Password" type="password" name="passwordConfirm" class="form-control" id="passwordConfirm"
+      (ngModelChange)="setConfPw($event)" #passwordConfirm="ngModel" required>
+      <ngb-alert [dismissible]="false" [hidden]="pwConfirmIsValid || passwordConfirm.pristine">
         Please confirm your password.
       </ngb-alert>
     </div>

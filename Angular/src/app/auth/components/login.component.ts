@@ -52,8 +52,10 @@ export class LoginComponent implements OnInit {
         this.hasFailed = true;
         // hmm iwie doch ned so ganz
       }
-      this.hasFailed = true; // hmm dann halt so... TMP => 2Do x'D
+      setTimeout(() => this.hasFailed = true, 100); // hmm dann halt so... TMP => 2Do x'D
     }
+    f.form.controls.login.markAsDirty();
+    f.form.controls.password.markAsDirty();
     return false;
   }
 }
