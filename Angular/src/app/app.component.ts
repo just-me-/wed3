@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './auth/services/auth.service';
+import {LogoutComponent} from "./auth/components/logout.component";
 
 @Component({
   selector: 'wed-root',

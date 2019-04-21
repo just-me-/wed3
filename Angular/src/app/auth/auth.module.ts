@@ -17,6 +17,7 @@ import {AuthResourceService} from './resources/auth-resource.service';
 
 import {SecurityTokenStore} from './services/credential-management/security-token-store';
 import {AuthGuardService} from './services/auth-guard.service';
+import {NoAuthGuardService} from './services/noauth-guard.service';
 
 const EXPORTED_DECLARATIONS = [
   LoginComponent, LogoutComponent, RegisterComponent
@@ -48,8 +49,8 @@ export class AuthModule {
       providers: [
         // DI Multi-Providers (Services, Tokens, Factories...) to be used globally and instantiated only once.
         // For Single-Providers use {providedIn: 'root'} instead.
-
         AuthGuardService,
+        NoAuthGuardService,
         SecurityTokenStore,
         {
           provide: HTTP_INTERCEPTORS,
