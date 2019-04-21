@@ -52,7 +52,10 @@ class Dashboard extends Component {
                 NotificationManager.success('Betrag wurde erfolgreich überwiesen.');
                 this.componentDidMount();
             })
-            .catch(error => console.log("Ups, ein Fehler ist bei der Transaktion aufgetreten", error));
+            .catch(error => {
+              console.log("Ups, ein Fehler ist bei der Transaktion aufgetreten", error);
+              NotificationManager.warning('Bitte prüfen Sie Ihre Eingabe...', 'Überweisung kann nicht getätigt werden');
+            });
     }
 
     handleRecipientNumberChange = (event: Event) => {
@@ -71,17 +74,21 @@ class Dashboard extends Component {
                 transferSum: event.target.value
             });
         } else {
-            NotificationManager.error('Amount is bigger than account sum');
+            NotificationManager.error('Amount is bigger than account sum', 'Kein Geld vorhanden!');
         }
     };
 
     handleSubmit = (event: Event) => {
         if(this.state.transferSum !== 0 && this.state.recipientNr != null){
-          if(this.state.transferSum >= 0.05) {
-            this.transferMoney()
-          } else {
+          if(this.state.recipientNr === this.state.user.accountNr) {
+            NotificationManager.error('Transaktion an sich selbst nicht möglich.');
+          } else if(this.state.transferSum < 0.05) {
             NotificationManager.error('Der Mindestbetrag ist 0.05 CHF.');
+          } else {
+            this.transferMoney()
           }
+        } else {
+          NotificationManager.warning('Bitte Betrag und Ziel eingeben.', 'Fehlende Eingabe');
         }
     };
 
