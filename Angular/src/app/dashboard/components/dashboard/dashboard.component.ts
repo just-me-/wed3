@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from "@angular/forms";
 
-import {AuthService} from '../../../auth/services';
+import {AuthService} from '../../../auth/services/auth.service';
 import {Account} from "../../../auth/models/account";
 import {Transaction} from "../../models/transaction";
 
-import {TransactionResourceService} from '../../resources'; // mh
+import {TransactionResourceService} from '../../resources/transaction-resource.service'; // mh
 import {TransactionService} from "../../services/transaction.service"; // df
 
 
@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit {
   public createTransaction(f: NgForm): boolean {
     if (f && f.valid) {
       this.errorMessage = this.successMessage = null;
+      // transfer
+      /*
       this.resource.createTransaction(this.targetNr, this.amount).subscribe(
         (transaction: Transaction) => {
           if (transaction) {
@@ -48,11 +50,13 @@ export class DashboardComponent implements OnInit {
           }
         }
       );
+      */
     }
     return false;
   }
 
   public setTargetAccount() {
+    /*
     if (this.targetNr) {
       this.resource.getAccount(this.targetNr).subscribe(
         (account: Account) => {
@@ -62,15 +66,18 @@ export class DashboardComponent implements OnInit {
     } else {
       this.targetAccount = null;
     }
+    */
   }
 
   // /df
   public doTransfer(f: NgForm){
     if (f && f.valid) {
       try {
+        /*
         this.transSvc.transfer(new Transaction(new Account("udfu","dario","fuoco","1000019"),
           new Account("udfu2","dario2","fuoco2","1000029")
           ,100, 1000,"2019-04-26-14:39:02"));
+        */
       } catch (e) {
         console.log("Something went wrong" + e);
       }
