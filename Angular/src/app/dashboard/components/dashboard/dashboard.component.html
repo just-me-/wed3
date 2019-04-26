@@ -1,61 +1,66 @@
-<h1>Dashboard</h1>
+<h1 class="text-center">Dashboard</h1>
 
 <div class="row">
 
   <div class="col-xs-12 col-md-6">
-    <h2>Neue Bewegung</h2>
+    <div class="box">
+      <h2>Neue Bewegung</h2>
 
-    <div class="form-group row">
-      <label for="von" class="col-sm-3 col-form-label">
-        Von:
-      </label>
-      <div class="col-sm-9">
-        <input type="text" name="von" class="form-control" id="von">
+      <div class="form-group row">
+        <label for="von" class="col-sm-3 col-form-label">
+          Von:
+        </label>
+        <div class="col-sm-9">
+          <input type="text" name="von" class="form-control" id="von">
+        </div>
       </div>
-    </div>
 
-    <div class="form-group row">
-      <label for="zu" class="col-sm-3 col-form-label">
-        Zu:
-      </label>
-      <div class="col-sm-9">
-        <input type="text" name="zu" class="form-control" id="zu">
+      <div class="form-group row">
+        <label for="zu" class="col-sm-3 col-form-label">
+          Zu:
+        </label>
+        <div class="col-sm-9">
+          <input type="text" name="zu" class="form-control" id="zu">
+        </div>
       </div>
-    </div>
 
-    <div class="form-group row">
-      <div class="col-sm-9">
-        <input type="text" name="zu" class="form-control" id="zu">
+      <div class="form-group row">
+        <label for="zu" class="col-sm-3 col-form-label">
+          CHF
+        </label>
+        <div class="col-sm-9">
+          <input type="text" name="zu" class="form-control" id="zu">
+        </div>
       </div>
-      <label for="zu" class="col-sm-3 col-form-label">
-        CHF
-      </label>
-    </div>
 
-    <button type="submit" class="btn btn-primary btn-block">Überweisen</button>
+      <button type="submit" class="btn btn-primary btn-block">Überweisen</button>
+    </div>
   </div>
 
   <div class="col-xs-12 col-md-6">
-    <table class="table table-striped">
-      <tr>
-        <th>Von</th>
-        <th>Zu</th>
-        <th>Betrag</th>
-        <th>Kontostand neu</th>
-      </tr>
-      <tr>
-        <td>111111</td>
-        <td>444444</td>
-        <td>-10</td>
-        <td>490</td>
-      </tr>
-      <tr>
-        <td>111111</td>
-        <td>444444</td>
-        <td>-10</td>
-        <td>490</td>
-      </tr>
-    </table>
+    <div class="box">
+      <h2>Letzte Bewegungen</h2>
+      <table class="table table-striped">
+        <tr>
+          <th>Von</th>
+          <th>Zu</th>
+          <th>Betrag</th>
+          <th>Kontostand neu</th>
+        </tr>
+        <tr>
+          <td>111111</td>
+          <td>444444</td>
+          <td>-10</td>
+          <td>490</td>
+        </tr>
+        <tr>
+          <td>111111</td>
+          <td>444444</td>
+          <td>-10</td>
+          <td>490</td>
+        </tr>
+      </table>
+    </div>
   </div>
 
 </div>
