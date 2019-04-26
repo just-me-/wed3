@@ -4,36 +4,51 @@
 
   <div class="col-xs-12 col-md-6">
     <div class="box">
-      <h2>Neue Bewegung</h2>
+      <form #f="ngForm" (ngSubmit)="createTransaction(f)">
+        <h2>Neue Bewegung</h2>
 
-      <div class="form-group row">
-        <label for="von" class="col-sm-3 col-form-label">
-          Von:
-        </label>
-        <div class="col-sm-9">
-          <input type="text" name="von" class="form-control" id="von">
+        <div class="form-group row">
+          <label for="sourceNr" class="col-sm-3 col-form-label">
+            Von:
+          </label>
+          <div class="col-sm-9">
+            <input type="text" name="sourceNr" class="form-control" id="sourceNr" disabled [ngModel]="sourceNr">
+          </div>
         </div>
-      </div>
 
-      <div class="form-group row">
-        <label for="zu" class="col-sm-3 col-form-label">
-          Zu:
-        </label>
-        <div class="col-sm-9">
-          <input type="text" name="zu" class="form-control" id="zu">
+        <div class="form-group row">
+          <label for="targetNr" class="col-sm-3 col-form-label">
+            Zu:
+          </label>
+          <div class="col-sm-9">
+            <input type="text" name="targetNr" class="form-control" id="targetNr" required
+                   (keyup)="setTargetAccount()" [(ngModel)]="targetNr" #targetNrCtrl="ngModel"
+            >
+          </div>
+
+          <div *ngIf="!targetNrCtrl.valid" class="help-text">Bitte Ziel-Konto angeben.</div>
+          <div *ngIf="targetAccount" class="help-text">{{ targetAccount.fullname}}</div>
+          <div *ngIf="targetNrCtrl.valid && !targetAccount" class="help-text">Konto ist unbekannt!</div>
+
         </div>
-      </div>
 
-      <div class="form-group row">
-        <label for="zu" class="col-sm-3 col-form-label">
-          CHF
-        </label>
-        <div class="col-sm-9">
-          <input type="text" name="zu" class="form-control" id="zu">
+        <div class="form-group row">
+          <label for="amount" class="col-sm-3 col-form-label">
+            Betrag in CHF
+          </label>
+          <div class="col-sm-9">
+            <input type="text" name="amount" class="form-control" id="zu" required [(ngModel)]="amount" #amountCtrl="ngModel">
+          </div>
+
+          <div *ngIf="!amountCtrl.valid" class="help-text">Ungültiger Betrag</div>
+
         </div>
-      </div>
 
-      <button type="submit" class="btn btn-primary btn-block">Überweisen</button>
+        <button type="submit" class="btn btn-primary btn-block">Überweisen</button>
+        <div *ngIf="errorMessage" class="callout alert">{{errorMessage}}</div>
+        <div *ngIf="successMessage" class="callout success">{{successMessage}}</div>
+
+      </form>
     </div>
   </div>
 
