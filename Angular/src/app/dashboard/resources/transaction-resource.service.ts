@@ -25,7 +25,7 @@ export class TransactionResourceService extends ResourceBase {
           }
           return null;
         }),
-        catchError((error: any) => of<Account>(null))
+        catchError((error: any) => of<Transaction>(null))
       );
   }
 
