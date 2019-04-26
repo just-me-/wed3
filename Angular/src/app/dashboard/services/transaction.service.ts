@@ -10,7 +10,7 @@ import {Transaction} from "../models/transaction";
 
 
 @Injectable({providedIn: 'root'})
-export class AuthService {
+export class TransactionService {
 
   public authenticatedUserChange: EventEmitter<Account> = new EventEmitter<Account>();
 
