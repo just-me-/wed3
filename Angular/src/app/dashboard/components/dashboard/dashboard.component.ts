@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-/*
-import { NgForm } from '@angular/forms';
-
-import { TransactionResourceService } from '../../resources';
-import { Transaction } from '../../models';
-
-import { AuthService } from '../../../auth/services';
-import { Account } from '../../../auth/models';
-*/
-import {NavigationService} from "@app/core";
-import {ActivatedRoute, Params} from "@angular/router";
 import {NgForm} from "@angular/forms";
-import {Transaction} from "../../models/transaction";
+
+import {AuthService} from '../../../auth/services';
 import {Account} from "../../../auth/models/account";
-import {TransactionService} from "../../services/transaction.service";
+import {Transaction} from "../../models/transaction";
+
+import {TransactionResourceService} from '../../resources'; // mh
+import {TransactionService} from "../../services/transaction.service"; // df
 
 
 @Component({
@@ -22,9 +15,6 @@ import {TransactionService} from "../../services/transaction.service";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  private backUrl;
-
-
   public sourceNr: string;
   public targetNr: string;
   public amount: number;
@@ -38,12 +28,6 @@ export class DashboardComponent implements OnInit {
       this.sourceNr = auth.authenticatedUser.accountNr;
     }
   }
-  /*
-  constructor(private transSvc: TransactionService, private navigationSvc: NavigationService, route: ActivatedRoute) {
-    route.params.subscribe(
-      (p: Params) => this.backUrl = p.backUrl);
-  }
-  */
 
   ngOnInit() {
   }
