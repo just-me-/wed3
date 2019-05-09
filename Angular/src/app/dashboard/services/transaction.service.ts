@@ -7,6 +7,7 @@ import {TransactionResourceService} from '../resources/transaction-resource.serv
 
 import {SecurityTokenStore} from '../../auth/services/credential-management/security-token-store';
 import {Transaction} from "../models/transaction";
+import {Observable} from "rxjs";
 
 
 @Injectable({providedIn: 'root'})
@@ -29,6 +30,10 @@ export class TransactionService {
 
   public get hasCredentials(): boolean {
     return !isBlank(this.authenticatedUser);
+  }
+
+  public getAccount(targetNr) : Observable<Account>{
+    return this.resource.getAccount(targetNr);
   }
 
   public transfer(transactionModel: Transaction) {

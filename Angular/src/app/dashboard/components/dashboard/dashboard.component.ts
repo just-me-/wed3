@@ -62,17 +62,17 @@ export class DashboardComponent implements OnInit {
   }
 
   public setTargetAccount() {
-    /*
     if (this.targetNr) {
-      this.resource.getAccount(this.targetNr).subscribe(
+      this.traSer.getAccount(this.targetNr).subscribe(
         (account: Account) => {
           this.targetAccount = account;
+          console.log(account);
         }
       );
     } else {
       this.targetAccount = null;
     }
-    */
+    console.log(this.targetAccount)
   }
 
   public doTransfer(f: NgForm): void{
