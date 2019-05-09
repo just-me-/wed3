@@ -62,17 +62,11 @@
           <th>Betrag</th>
           <th>Kontostand neu</th>
         </tr>
-        <tr>
-          <td>111111</td>
-          <td>444444</td>
-          <td>-10</td>
-          <td>490</td>
-        </tr>
-        <tr>
-          <td>111111</td>
-          <td>444444</td>
-          <td>-10</td>
-          <td>490</td>
+        <tr *ngFor="let transaction of this.traSer.transactionList">
+          <td>{{ transaction.from }}</td>
+          <td>{{ transaction.target }}</td>
+          <td>{{ transaction.amount }}</td>
+          <td>{{ transaction.total }}</td>
         </tr>
       </table>
     </div>

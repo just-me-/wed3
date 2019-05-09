@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("aa",this.auth);
+    console.log("BB", this.traSer.getTransactions()); //  TypeError: 'arguments', 'callee', and 'caller' cannot be accessed in this context.
     if(this.auth) {
       this.user = this.auth.authenticatedUser;
       this.traSer.getTransactions();

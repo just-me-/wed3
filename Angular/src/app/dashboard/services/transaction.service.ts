@@ -59,21 +59,18 @@ export class TransactionService {
     count: number = 3,
     skip: number = 0
   ): Promise<void> {
-    console.log("the service works");
+    console.log("the service (getTransactions) works");
     return new Promise<void>((resolve, reject) => {
       this.resource
         .getTransactions(fromDate, toDate, count, skip)
         .subscribe((data: any) => {
-          this.transactions = !isBlank(data)
-            ? Transaction.fromDtoArray(data.result)
-            : null;
-
+          this.transactions = data;
           if (isBlank(data)) {
             reject();
           } else {
             resolve();
           }
-          
+
         });
     });
   }
