@@ -15,6 +15,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {WelcomeModule} from './welcome/welcome.module';
 //import {DashboardModule} from './dashboard/dashboard.module';
+import {TransactionsComponent} from './transactions/transactions.component';
 import {AuthModule} from './auth/auth.module';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -23,7 +24,8 @@ import {AppComponent} from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TransactionsComponent
   ],
   imports: [
     BrowserModule,

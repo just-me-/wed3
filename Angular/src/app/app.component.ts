@@ -9,8 +9,10 @@ import {LogoutComponent} from "./auth/components/logout.component";
 })
 export class AppComponent implements OnInit {
   public showMenu = false;
+  public activeMenu = 'dashboard';
 
   constructor(private autSvc: AuthService) {
+    this.activeMenu = window.location.pathname;
   }
 
   ngOnInit() {
@@ -20,4 +22,5 @@ export class AppComponent implements OnInit {
         this.showMenu = this.autSvc.hasCredentials; // beim login selbst
       });
   }
+
 }
