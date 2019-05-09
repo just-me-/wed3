@@ -64,7 +64,7 @@ export class TransactionResourceService extends ResourceBase {
   }
 
   // hmm haben wir das ned iwo als service api?
-  public getTransactions(
+  public getTransactionsSS(
     fromDate: string,
     toDate: string,
     count: number,
