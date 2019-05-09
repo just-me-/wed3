@@ -46,7 +46,8 @@ export class DashboardComponent implements OnInit {
         f.value.amount,
         0,
         "",
-      ));
+      ))
+      .then(() => console.log("the stuff could be transfered"));;
   }
 
   public createTransaction(f: NgForm): boolean {

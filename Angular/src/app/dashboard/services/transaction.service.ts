@@ -33,10 +33,7 @@ export class TransactionService {
     return !isBlank(this.authenticatedUser);
   }
 
-  public transfer(transactionModel: Transaction): void {
-    this.resource.transfer(transactionModel).subscribe();
-  }
-  public transferSS(transactionModel: Transaction/*target: AccountNr, amount: number*/) {
+  public transfer(transactionModel: Transaction/*target: AccountNr, amount: number*/) {
     console.log("in the service", transactionModel);
     return new Promise<void>((resolve, reject) => {
       // wir machen das mit nem transObect statt einzelne params.
