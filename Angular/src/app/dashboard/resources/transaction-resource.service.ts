@@ -16,6 +16,21 @@ export class TransactionResourceService extends ResourceBase {
     super(http);
   }
 
+  public getAccount(accountNr: string): Observable<Account> {
+    return this.get(`/accounts/${accountNr}`).pipe(
+      map((response: any) => {
+        if (response) {
+          return Account.fromDto(response);
+        }
+        return null;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return of<Account>(null);
+      })
+    );
+  }
+
   public transfer(model: Transaction): Observable<Transaction> {
     return this.post('/accounts/transactions', model.toDto())
       .pipe(
@@ -25,7 +40,26 @@ export class TransactionResourceService extends ResourceBase {
           }
           return null;
         }),
-        catchError((error: any) => of<Transaction>(null))
+        catchError((error: any) => {
+          console.log(error);
+          return of<Transaction>(null)
+        })
+      );
+  }
+
+  public getTransactions(): Observable<Array<Transaction>> {
+    return this.get('/accounts/transactions')
+      .pipe(
+        map((response: any) => {
+          if (response) {
+            return response.result.map((r) => Transaction.fromDto(r));
+          }
+          return null;
+        }),
+        catchError((error: any) => {
+          console.error(error);
+          return of<Transaction>(null);
+        })
       );
   }
 
