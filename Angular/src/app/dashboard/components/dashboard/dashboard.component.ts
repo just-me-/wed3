@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   public sourceNr: string;
   public targetNr: string;
   public amount: number;
-  public targetAccount: Account;
+  public targetAccount: Object;
   public user: Account;
 
   public errorMessage: string;
@@ -66,13 +66,11 @@ export class DashboardComponent implements OnInit {
       this.traSer.getAccount(this.targetNr).subscribe(
         (account: Account) => {
           this.targetAccount = account;
-          console.log(account);
         }
       );
     } else {
       this.targetAccount = null;
     }
-    console.log(this.targetAccount)
   }
 
   public doTransfer(f: NgForm): void{

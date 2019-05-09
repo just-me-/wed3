@@ -20,8 +20,7 @@ export class TransactionResourceService extends ResourceBase {
     return this.get(`/accounts/${accountNr}`).pipe(
       map((response: any) => {
         if (response) {
-          console.log(response);
-          return Account.fromDto(response);
+          return response;
         }
         return null;
       }),

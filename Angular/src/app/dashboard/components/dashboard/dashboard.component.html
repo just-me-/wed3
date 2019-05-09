@@ -27,7 +27,7 @@
           </div>
 
           <div *ngIf="!targetNrCtrl.valid" class="help-text">Bitte Ziel-Konto angeben.</div>
-          <div *ngIf="targetAccount" class="help-text">{{ targetAccount.fullname}}</div>
+          <div *ngIf="targetAccount" class="help-text">{{ targetAccount.owner.firstname}} {{targetAccount.owner.lastname}}</div>
           <div *ngIf="targetNrCtrl.valid && !targetAccount" class="help-text">Konto ist unbekannt!</div>
 
         </div>
