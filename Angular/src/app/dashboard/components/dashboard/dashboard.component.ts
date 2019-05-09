@@ -40,8 +40,13 @@ export class DashboardComponent implements OnInit {
   public doTransferSS(f: NgForm): void {
     console.log("in the component");
     this.traSer
-      .transfer(f.value.target, f.value.amount)
-      .then(() => console.log("the stuff could be transfered"));
+      .transfer(new Transaction(
+        this.user,
+        f.value.target,
+        f.value.amount,
+        0,
+        "",
+      ));
   }
 
   public createTransaction(f: NgForm): boolean {

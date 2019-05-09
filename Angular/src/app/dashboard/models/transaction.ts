@@ -39,5 +39,5 @@ export class Transaction {
     console.log("on creation of array", result);
     return result;
   }
-  
+
 }

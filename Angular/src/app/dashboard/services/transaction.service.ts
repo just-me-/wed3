@@ -62,7 +62,7 @@ export class TransactionService {
     console.log("the service works");
     return new Promise<void>((resolve, reject) => {
       this.resource
-        .getTransactions(fromDate, toDate, count, skip)
+        .getTransactions(/*fromDate, toDate, count, skip*/)
         .subscribe((data: any) => {
           this.transactions = !isBlank(data)
             ? Transaction.fromDtoArray(data.result)
