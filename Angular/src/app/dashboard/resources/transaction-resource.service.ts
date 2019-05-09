@@ -31,20 +31,19 @@ export class TransactionResourceService extends ResourceBase {
     );
   }
 
-  public transfer(model: Transaction): Observable<Transaction> {
-    return this.post('/accounts/transactions', model.toDto())
-      .pipe(
-        map((result: any) => {
-          if (result) {
-            return Transaction.fromDto(result);
-          }
-          return null;
-        }),
-        catchError((error: any) => {
-          console.log(error);
-          return of<Transaction>(null)
-        })
-      );
+  public createTransaction(target: string, amount: number): Observable<Transaction> {
+    return this.post('/accounts/transactions', {target, amount}).pipe(
+      map((response: any) => {
+        if (response) {
+          return Transaction.fromDto(response);
+        }
+        return null;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return of<Transaction>(null);
+      })
+    )
   }
 
   public getTransactions(
