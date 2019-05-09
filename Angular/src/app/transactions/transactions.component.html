@@ -1,3 +1,62 @@
-<p>
-  transactions works!
-</p>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1>All Transactions</h1>
+    </div>
+    <div class="card-body">
+      <h3>Filter</h3>
+      <form>
+        <div class="form-row">
+          <div class="col-md-5">
+            <label>Select a year</label>
+            <select class="form-control" (change)="this.yearSelectionFieldChanged($event)">
+              <option *ngFor="let year of this.lastYears">{{year}}</option>
+            </select>
+          </div>
+          <div class="col-md-7">
+            <label>Select a month</label>
+            <select [ngModel]="this.selectedMonth" class="form-control" (ngModelChange)="this.monthSelectionFieldChanged($event)" [ngModelOptions]="{standalone: true}">
+              <option [value]="1">Januar</option>
+              <option [value]="2">Februar</option>
+              <option [value]="3">März</option>
+              <option [value]="4">April</option>
+              <option [value]="5">Mai</option>
+              <option [value]="6">Juni</option>
+              <option [value]="7">Juli</option>
+              <option [value]="8">August</option>
+              <option [value]="9">September</option>
+              <option [value]="10">Oktober</option>
+              <option [value]="11">November</option>
+              <option [value]="12">Dezember</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <table class="table table-striped">
+        <thead>
+        <th>Date</th>
+        <th>Source</th>
+        <th>Target</th>
+        <th>Amount [CHF]</th>
+        <th>Balance [CHF]</th>
+        </thead>
+        <tbody>
+        <!--<tr ngRepeat={{transaction in transactions}}>
+          <td>{{transaction.date}}</td>
+          <td>{{transaction.source}}</td>
+          <td>{{transaction.target}}</td>
+          <td>{{transaction.amount}}</td>
+          <td>{{transaction.balance}}</td>
+        </tr>-->
+          <tr>
+            <td>date</td>
+            <td>source</td>
+            <td>target</td>
+            <td>amount</td>
+            <td>balance</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
