@@ -9,16 +9,14 @@ export class Transaction {
   }
 
   public static fromDto(data: any): Transaction {
-    return new Transaction(data.from, data.target, data.amount, data.total,data.date);
-  }
-
-  /*public static fromInfoDto(data: any): Transaction {
     return new Transaction(
-      (data.owner) ? data.owner.login : void 0,
-      (data.owner) ? data.owner.firstname : void 0,
-      (data.owner) ? data.owner.lastname : void 0,
-      data.accountNr);
-  }*/
+      data.from,
+      data.target,
+      data.amount,
+      data.total,
+      data.date,
+    );
+  }
 
   toDto(): any {
     return {
