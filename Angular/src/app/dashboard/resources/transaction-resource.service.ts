@@ -10,9 +10,7 @@ import {Account} from '../../auth/models/account';
 import {Transaction} from "../models/transaction";
 
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable({providedIn: "root"})
 export class TransactionResourceService extends ResourceBase {
   constructor(http: HttpClient) {
     super(http);
@@ -49,24 +47,7 @@ export class TransactionResourceService extends ResourceBase {
       );
   }
 
-  public getTransactions(): Observable<Array<Transaction>> {
-    return this.get('/accounts/transactions')
-      .pipe(
-        map((response: any) => {
-          if (response) {
-            return response.result.map((r) => Transaction.fromDto(r));
-          }
-          return null;
-        }),
-        catchError((error: any) => {
-          console.error(error);
-          return of<Transaction>(null);
-        })
-      );
-  }
-
-  // hmm haben wir das ned iwo als service api?
-  public getTransactionsSS(
+  public getTransactions(
     fromDate: string,
     toDate: string,
     count: number,
@@ -79,13 +60,16 @@ export class TransactionResourceService extends ResourceBase {
     return this.get(
       `/accounts/transactions?fromDate=${fromDate}&toDate=${toDate}&count=${count}&skip=${skip}`
     ).pipe(
-      map((result: any) => {
-        if (result) {
-          return result;
+      map((response: any) => {
+        if (response) {
+          return response.result.map((r) => Transaction.fromDto(r));
         }
         return null;
       }),
-      catchError((error: any) => of<Transaction>(null))
+      catchError((error: any) => {
+        console.error(error);
+        return of<Transaction>(null);
+      })
     );
   }
 

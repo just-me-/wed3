@@ -5,8 +5,7 @@ import {AuthService} from '../../../auth/services/auth.service';
 import {Account} from "../../../auth/models/account";
 import {Transaction} from "../../models/transaction";
 
-//import {TransactionResourceService} from '../../resources/transaction-resource.service'; // mh
-import {TransactionService} from "../../services/transaction.service"; // df + ss
+import {TransactionService} from "../../services/transaction.service";
 
 @Component({
   selector: 'wed-dashboard',
@@ -24,9 +23,7 @@ export class DashboardComponent implements OnInit {
   public successMessage: string;
 
   constructor(
-    private traSer: TransactionService,
-    private auth: AuthService
-    ) {
+    private traSer: TransactionService, private auth: AuthService) {
     if (auth.authenticatedUser) {
       this.sourceNr = auth.authenticatedUser.accountNr;
     }
@@ -37,19 +34,6 @@ export class DashboardComponent implements OnInit {
       this.user = this.auth.authenticatedUser;
       this.traSer.getTransactions();
     }
-  }
-
-  public doTransferSS(f: NgForm): void {
-    console.log("in the component");
-    this.traSer
-      .transfer(new Transaction(
-        this.user,
-        f.value.target,
-        f.value.amount,
-        0,
-        "",
-      ))
-      .then(() => console.log("the stuff could be transfered"));;
   }
 
   public createTransaction(f: NgForm): boolean {
@@ -89,15 +73,19 @@ export class DashboardComponent implements OnInit {
     */
   }
 
-  // /df
-  public doTransfer(f: NgForm){
+  public doTransfer(f: NgForm): void{
     if (f && f.valid) {
       try {
-        /*
-        this.transSvc.transfer(new Transaction(new Account("udfu","dario","fuoco","1000019"),
-          new Account("udfu2","dario2","fuoco2","1000029")
-          ,100, 1000,"2019-04-26-14:39:02"));
-        */
+        console.log("in the component");
+        this.traSer
+          .transfer(new Transaction(
+            this.user,
+            f.value.target,
+            f.value.amount,
+            100,
+            "2019-04-26-14:39:02",
+          ))
+          .then(() => console.log("the stuff could be transfered"));
       } catch (e) {
         console.log("Something went wrong" + e);
       }

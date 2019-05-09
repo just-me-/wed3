@@ -17,8 +17,7 @@ export class TransactionService {
 
   public authenticatedUserChange: EventEmitter<Account> = new EventEmitter<Account>();
 
-  constructor(private resource: TransactionResourceService,
-    private tokenStore: SecurityTokenStore) {
+  constructor(private resource: TransactionResourceService, private tokenStore: SecurityTokenStore) {
     if (tokenStore.storedValue) {
       this.authUser = tokenStore.storedValue.owner;
     }
@@ -32,12 +31,11 @@ export class TransactionService {
     return !isBlank(this.authenticatedUser);
   }
 
-  public transfer(transactionModel: Transaction/*target: AccountNr, amount: number*/) {
+  public transfer(transactionModel: Transaction) {
     console.log("in the service", transactionModel);
     return new Promise<void>((resolve, reject) => {
-      // wir machen das mit nem transObect statt einzelne params.
       this.resource
-        .transfer(transactionModel/*target, amount*/)
+        .transfer(transactionModel)
         .subscribe((data: Transaction) => {
           this.transferResult = !isBlank(data) ? data : null;
 
@@ -46,7 +44,7 @@ export class TransactionService {
           } else {
             resolve();
           }
-          
+
         });
     });
   }
@@ -64,16 +62,18 @@ export class TransactionService {
     console.log("the service works");
     return new Promise<void>((resolve, reject) => {
       this.resource
-        .getTransactions(/*fromDate, toDate, count, skip*/)
+        .getTransactions(fromDate, toDate, count, skip)
         .subscribe((data: any) => {
           this.transactions = !isBlank(data)
             ? Transaction.fromDtoArray(data.result)
             : null;
+
           if (isBlank(data)) {
             reject();
           } else {
             resolve();
           }
+          
         });
     });
   }
