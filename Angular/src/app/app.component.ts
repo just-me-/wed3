@@ -23,9 +23,4 @@ export class AppComponent implements OnInit {
       });
   }
 
-
-  setActiveMenu(activeMenu: string) {
-    this.activeMenu = activeMenu;
-  }
-
 }

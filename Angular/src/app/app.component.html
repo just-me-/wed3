@@ -12,11 +12,11 @@
         <li class="nav-item">
           <a class="nav-link" href="/welcome">Welcome</a>
         </li>
-        <li class="nav-item" [class.active]="activeMenu=='dashboard'">
+        <li class="nav-item" [class.active]="activeMenu=='/dashboard'">
           <a class="nav-link" href="/dashboard">Dashboard</a>
         </li>
-        <li class="nav-item" [class.active]="activeMenu=='transactions'">
-          <a class="nav-link" href="/transactions" (click)='setActiveMenu("transactions")'>Transactions</a>
+        <li class="nav-item" [class.active]="activeMenu=='/transactions'">
+          <a class="nav-link" href="/transactions">Transactions</a>
         </li>
       </ul>
       <wed-logout class="logout-btn"></wed-logout>
