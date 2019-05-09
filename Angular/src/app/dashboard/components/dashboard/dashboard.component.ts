@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   public successMessage: string;
 
   constructor(
-    private traSer: TransactionsService,
+    private traSer: TransactionService,
     private auth: AuthService
     ) {
     if (auth.authenticatedUser) {
