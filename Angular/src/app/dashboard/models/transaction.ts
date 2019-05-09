@@ -30,6 +30,7 @@ export class Transaction {
 
   // brauchen wir das?
   public static fromDtoArray(data: any): Array<Transaction> {
+    if(!data) return null;
     const result: Array<Transaction> = [];
     data.forEach(el =>
       result.push(

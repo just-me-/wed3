@@ -33,8 +33,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = this.auth.authenticatedUser;
-    this.traSer.getTransactions();
+    if(this.auth) {
+      this.user = this.auth.authenticatedUser;
+      this.traSer.getTransactions();
+    }
   }
 
   public doTransferSS(f: NgForm): void {

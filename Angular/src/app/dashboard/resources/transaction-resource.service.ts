@@ -10,7 +10,9 @@ import {Account} from '../../auth/models/account';
 import {Transaction} from "../models/transaction";
 
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class TransactionResourceService extends ResourceBase {
   constructor(http: HttpClient) {
     super(http);

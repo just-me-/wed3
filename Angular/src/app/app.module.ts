@@ -1,6 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
+
 import {LOCALE_ID, NgModule} from '@angular/core';
 
 import {registerLocaleData} from '@angular/common';
@@ -27,6 +29,7 @@ import {AppComponent} from './app.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    HttpModule,
 
     CoreModule.forRoot(),
     AuthModule.forRoot(),

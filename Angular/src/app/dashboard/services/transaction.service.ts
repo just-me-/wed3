@@ -13,20 +13,19 @@ import {Transaction} from "../models/transaction";
 export class TransactionService {
   private transferResult: Transaction = null;
   private transactions: Array<Transaction> = [];
+  private authUser: Account = null;
 
   public authenticatedUserChange: EventEmitter<Account> = new EventEmitter<Account>();
-
-  public get authenticatedUser(): Account {
-    return this.authUser;
-  }
-
-  private authUser: Account = null;
 
   constructor(private resource: TransactionResourceService,
     private tokenStore: SecurityTokenStore) {
     if (tokenStore.storedValue) {
       this.authUser = tokenStore.storedValue.owner;
     }
+  }
+
+  public get authenticatedUser(): Account {
+    return this.authUser;
   }
 
   public get hasCredentials(): boolean {
@@ -42,6 +41,12 @@ export class TransactionService {
         .subscribe((data: Transaction) => {
           this.transferResult = !isBlank(data) ? data : null;
 
+          if (isBlank(data)) {
+            reject();
+          } else {
+            resolve();
+          }
+          
         });
     });
   }
