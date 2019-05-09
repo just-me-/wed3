@@ -11,6 +11,8 @@ import {Transaction} from "../models/transaction";
 
 @Injectable({providedIn: 'root'})
 export class TransactionService {
+  private transferResult: Transaction = null;
+  private transactions: Array<Transaction> = [];
 
   public authenticatedUserChange: EventEmitter<Account> = new EventEmitter<Account>();
 
@@ -20,7 +22,8 @@ export class TransactionService {
 
   private authUser: Account = null;
 
-  constructor(private resource: TransactionResourceService, private tokenStore: SecurityTokenStore) {
+  constructor(private resource: TransactionResourceService,
+    private tokenStore: SecurityTokenStore) {
     if (tokenStore.storedValue) {
       this.authUser = tokenStore.storedValue.owner;
     }
@@ -32,6 +35,45 @@ export class TransactionService {
 
   public transfer(transactionModel: Transaction): void {
     this.resource.transfer(transactionModel).subscribe();
+  }
+  public transferSS(transactionModel: Transaction/*target: AccountNr, amount: number*/) {
+    console.log("in the service", transactionModel);
+    return new Promise<void>((resolve, reject) => {
+      // wir machen das mit nem transObect statt einzelne params.
+      this.resource
+        .transfer(transactionModel/*target, amount*/)
+        .subscribe((data: Transaction) => {
+          this.transferResult = !isBlank(data) ? data : null;
+
+        });
+    });
+  }
+
+  public get transactionList(): Array<Transaction> {
+    return this.transactions;
+  }
+
+  public getTransactions(
+    fromDate: string = "",
+    toDate: string = "",
+    count: number = 3,
+    skip: number = 0
+  ): Promise<void> {
+    console.log("the service works");
+    return new Promise<void>((resolve, reject) => {
+      this.resource
+        .getTransactions(fromDate, toDate, count, skip)
+        .subscribe((data: any) => {
+          this.transactions = !isBlank(data)
+            ? Transaction.fromDtoArray(data.result)
+            : null;
+          if (isBlank(data)) {
+            reject();
+          } else {
+            resolve();
+          }
+        });
+    });
   }
 
 }

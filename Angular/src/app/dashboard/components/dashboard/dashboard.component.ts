@@ -5,9 +5,8 @@ import {AuthService} from '../../../auth/services/auth.service';
 import {Account} from "../../../auth/models/account";
 import {Transaction} from "../../models/transaction";
 
-import {TransactionResourceService} from '../../resources/transaction-resource.service'; // mh
-import {TransactionService} from "../../services/transaction.service"; // df
-
+//import {TransactionResourceService} from '../../resources/transaction-resource.service'; // mh
+import {TransactionService} from "../../services/transaction.service"; // df + ss
 
 @Component({
   selector: 'wed-dashboard',
@@ -19,17 +18,30 @@ export class DashboardComponent implements OnInit {
   public targetNr: string;
   public amount: number;
   public targetAccount: Account;
+  public user: Account;
 
   public errorMessage: string;
   public successMessage: string;
 
-  constructor(private resource: TransactionResourceService, private auth: AuthService) {
+  constructor(
+    private traSer: TransactionsService,
+    private auth: AuthService
+    ) {
     if (auth.authenticatedUser) {
       this.sourceNr = auth.authenticatedUser.accountNr;
     }
   }
 
   ngOnInit() {
+    this.user = this.auth.authenticatedUser;
+    this.traSer.getTransactions();
+  }
+
+  public doTransferSS(f: NgForm): void {
+    console.log("in the component");
+    this.traSer
+      .transfer(f.value.target, f.value.amount)
+      .then(() => console.log("the stuff could be transfered"));
   }
 
   public createTransaction(f: NgForm): boolean {

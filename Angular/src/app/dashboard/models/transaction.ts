@@ -27,4 +27,17 @@ export class Transaction {
       date: this.date
     };
   }
+
+  // brauchen wir das?
+  public static fromDtoArray(data: any): Array<Transaction> {
+    const result: Array<Transaction> = [];
+    data.forEach(el =>
+      result.push(
+        new Transaction(el.from, el.target, el.amount, el.total, el.date)
+      )
+    );
+    console.log("on creation of array", result);
+    return result;
+  }
+  
 }

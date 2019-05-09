@@ -6,7 +6,11 @@ export class Account {
   }
 
   public static fromDto(data: any): Account {
-    return new Account(data.login, data.firstname, data.lastname, data.accountNr);
+    return new Account(
+      data.login,
+      data.firstname,
+      data.lastname,
+      data.accountNr);
   }
 
   public static fromInfoDto(data: any): Account {

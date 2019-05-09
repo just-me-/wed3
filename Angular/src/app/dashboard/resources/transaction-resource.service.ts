@@ -29,4 +29,28 @@ export class TransactionResourceService extends ResourceBase {
       );
   }
 
+  // hmm haben wir das ned iwo als service api?
+  public getTransactions(
+    fromDate: string,
+    toDate: string,
+    count: number,
+    skip: number
+  ): Observable<{
+    result: Array<Transaction>;
+    query: { resultcount: number };
+  }> {
+    console.log("the resource service works");
+    return this.get(
+      `/accounts/transactions?fromDate=${fromDate}&toDate=${toDate}&count=${count}&skip=${skip}`
+    ).pipe(
+      map((result: any) => {
+        if (result) {
+          return result;
+        }
+        return null;
+      }),
+      catchError((error: any) => of<Transaction>(null))
+    );
+  }
+
 }
