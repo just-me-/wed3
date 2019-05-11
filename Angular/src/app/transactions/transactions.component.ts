@@ -30,14 +30,14 @@ export class TransactionsComponent implements OnInit {
     return new Date(year, month, 0).getDate();
   }
 
+  formatDate(amiDate) {
+    const arr = amiDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2}).*/);
+    return arr && arr[1] && arr[2] && arr[3] ?
+      `${arr[3]}.${arr[2]}.${arr[1]}`
+      : amiDate;
+  }
+
   startNewTransactionRequest() {
-    console.log(
-      "Transaktionen vom " +
-        this.selectedMonth +
-        " im Jahr " +
-        this.selectedYear +
-        " starten"
-    );
 
     const month = this.selectedMonth > 0 ? this.selectedMonth : "01";
     const year = this.selectedYear > 0 ? this.selectedYear : "2019";
@@ -54,9 +54,14 @@ export class TransactionsComponent implements OnInit {
       "-" +
       this.daysInMonth(month, this.selectedYear);
 
-    this.filterText = (this.selectedYear > 0 || this.selectedMonth > 0 ) ?
-      "Anzeige gefiltert: von " + dateTo + " bis "+ dateTo :
-      "Alle zeigen";
+    this.filterText =
+      this.selectedYear > 0 || this.selectedMonth > 0
+        ? "Anzeige gefiltert: von " +
+          this.formatDate(dateFrom) +
+          " bis " +
+          this.formatDate(dateTo)
+        : "Alle zeigen";
+
     this.traSer.getTransactions(dateFrom, dateTo, 50, 0);
   }
 

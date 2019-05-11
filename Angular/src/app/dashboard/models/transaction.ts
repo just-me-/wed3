@@ -9,12 +9,15 @@ export class Transaction {
   }
 
   public static fromDto(data: any): Transaction {
+    const arr = data.date.match(/^(\d{4})-(\d{1,2})-(\d{1,2}).*/);
+    const date = `${arr[3]}.${arr[2]}.${arr[1]}`;
+    console.log(arr);
     return new Transaction(
       data.from,
       data.target,
       data.amount,
       data.total,
-      data.date,
+      date,
     );
   }
 
