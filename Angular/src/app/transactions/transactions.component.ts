@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { AuthModule } from "../auth/auth.module";
 import { TransModule } from "../dashboard/dashboard.module";
 
-import { TransactionsService } from "../dashboard/services/transaction.service";
+import { TransactionService } from "../dashboard/services/transaction.service";
 
 @Component({
   selector: "wed-transactions",
@@ -50,8 +50,7 @@ export class TransactionsComponent implements OnInit {
     return [thisYear, thisYear - 1, thisYear - 2];
   }
 
-  // warum schluckt er das nicht ?!?!?!
-  constructor(/*public ff: TransactionsService*/) {}
+  constructor(public traSer: TransactionService) {}
 
   ngOnInit() {
     console.log("Transactions onInit");

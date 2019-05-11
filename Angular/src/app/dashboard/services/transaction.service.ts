@@ -9,7 +9,6 @@ import {SecurityTokenStore} from '../../auth/services/credential-management/secu
 import {Transaction} from "../models/transaction";
 import {Observable} from "rxjs";
 
-
 @Injectable({providedIn: 'root'})
 export class TransactionService {
   private transferResult: Transaction = null;
