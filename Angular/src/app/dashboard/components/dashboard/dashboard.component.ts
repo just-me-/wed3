@@ -51,6 +51,8 @@ export class DashboardComponent implements OnInit {
             this.targetAccount = null;
             this.successMessage = `Transaction to ${transaction.target} succeeded! New balance ${transaction.total} CHF`;
             this.transactionAdded.emit(transaction);
+            // dirty update
+            this.traSer.getTransactions();
           } else {
             this.errorMessage = 'Could not transfer the money. Please check your transaction.';
           }

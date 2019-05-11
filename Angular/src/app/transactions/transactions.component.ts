@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+
+import { AuthModule } from "../auth/auth.module";
+import { TransModule } from "../dashboard/dashboard.module";
+
+import { TransactionService } from "../dashboard/services/transaction.service";
 
 @Component({
-  selector: 'wed-transactions',
-  templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.scss']
+  selector: "wed-transactions",
+  templateUrl: "./transactions.component.html",
+  styleUrls: ["./transactions.component.scss"]
 })
 export class TransactionsComponent implements OnInit {
-
-  private lastYears: Array<any>;
   private selectedYear: number;
   private selectedMonth: number;
+  private filterText: string;
 
   yearSelectionFieldChanged(event) {
     this.selectedYear = parseInt(event.target.value);
@@ -21,29 +25,53 @@ export class TransactionsComponent implements OnInit {
     this.startNewTransactionRequest();
   }
 
+  daysInMonth(month, year = 2019) {
+    month = parseInt(month);
+    return new Date(year, month, 0).getDate();
+  }
+
+  formatDate(amiDate) {
+    const arr = amiDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2}).*/);
+    return arr && arr[1] && arr[2] && arr[3] ?
+      `${arr[3]}.${arr[2]}.${arr[1]}`
+      : amiDate;
+  }
+
   startNewTransactionRequest() {
-    console.log(
-      "Transaktionen vom " +
-        this.selectedMonth +
-        " im Jahr " +
-        this.selectedYear +
-        " starten"
-    );
+
+    const month = this.selectedMonth > 0 ? this.selectedMonth : "01";
+    const year = this.selectedYear > 0 ? this.selectedYear : "2019";
+
+    let dateFrom =
+      (this.selectedYear > 0 || this.selectedMonth > 0 ? year : "2017") +
+      "-" +
+      month +
+      "-01";
+    let dateTo =
+      year +
+      "-" +
+      (this.selectedMonth > 0 ? month : "12") +
+      "-" +
+      this.daysInMonth(month, this.selectedYear);
+
+    this.filterText =
+      this.selectedYear > 0 || this.selectedMonth > 0
+        ? "Anzeige gefiltert: von " +
+          this.formatDate(dateFrom) +
+          " bis " +
+          this.formatDate(dateTo)
+        : "Alle zeigen";
+
+    this.traSer.getTransactions(dateFrom, dateTo, 50, 0);
   }
 
-  getLastYears() {
-    const thisYear = new Date().getFullYear();
-    return [thisYear, thisYear - 1, thisYear - 2];
-  }
-
-  constructor() { }
+  constructor(public traSer: TransactionService) {}
 
   ngOnInit() {
     console.log("Transactions onInit");
-    this.lastYears = this.getLastYears();
-    this.selectedYear = this.lastYears[0];
-    this.selectedMonth = new Date().getMonth() + 1;
+    this.selectedYear = "0";
+    this.selectedMonth = "0";
+    this.filterText = "Alle zeigen";
     this.startNewTransactionRequest();
   }
-
 }
