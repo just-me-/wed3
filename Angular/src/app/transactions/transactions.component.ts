@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+
+import { AuthModule } from "../auth/auth.module";
+import { TransModule } from "../dashboard/dashboard.module";
+
+import { TransactionsService } from "../dashboard/services/transaction.service";
 
 @Component({
-  selector: 'wed-transactions',
-  templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.scss']
+  selector: "wed-transactions",
+  templateUrl: "./transactions.component.html",
+  styleUrls: ["./transactions.component.scss"]
 })
 export class TransactionsComponent implements OnInit {
-
   private lastYears: Array<any>;
   private selectedYear: number;
   private selectedMonth: number;
@@ -29,6 +33,16 @@ export class TransactionsComponent implements OnInit {
         this.selectedYear +
         " starten"
     );
+
+    /*
+    const startDate = new Date(this.selectedYear, this.selectedMonth , 1);
+    const endDate = moment(startDate).endOf('month').toDate();
+
+    const startDateString = startDate.getFullYear() + "-" + startDate.getMonth() + "-" + startDate.getDate();
+    const endDateString = endDate.getFullYear() + "-" + endDate.getMonth() + "-" + endDate.getDate();
+
+    this.traSer.getTransactions(startDateString, endDateString, null);
+    */
   }
 
   getLastYears() {
@@ -36,7 +50,8 @@ export class TransactionsComponent implements OnInit {
     return [thisYear, thisYear - 1, thisYear - 2];
   }
 
-  constructor() { }
+  // warum schluckt er das nicht ?!?!?!
+  constructor(/*public ff: TransactionsService*/) {}
 
   ngOnInit() {
     console.log("Transactions onInit");
@@ -45,5 +60,4 @@ export class TransactionsComponent implements OnInit {
     this.selectedMonth = new Date().getMonth() + 1;
     this.startNewTransactionRequest();
   }
-
 }
