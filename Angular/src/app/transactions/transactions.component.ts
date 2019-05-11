@@ -33,7 +33,7 @@ export class TransactionsComponent implements OnInit {
         " starten"
     );
 
-    /*
+/*
     const startDate = new Date(this.selectedYear, this.selectedMonth , 1);
     const endDate = moment(startDate).endOf('month').toDate();
 
@@ -42,6 +42,8 @@ export class TransactionsComponent implements OnInit {
 
     this.traSer.getTransactions(startDateString, endDateString, null);
     */
+    this.traSer.getTransactions();
+
   }
 
   constructor(public traSer: TransactionService) {}
