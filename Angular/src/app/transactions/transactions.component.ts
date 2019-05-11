@@ -11,7 +11,6 @@ import { TransactionService } from "../dashboard/services/transaction.service";
   styleUrls: ["./transactions.component.scss"]
 })
 export class TransactionsComponent implements OnInit {
-  private lastYears: Array<any>;
   private selectedYear: number;
   private selectedMonth: number;
 
@@ -45,18 +44,12 @@ export class TransactionsComponent implements OnInit {
     */
   }
 
-  getLastYears() {
-    const thisYear = new Date().getFullYear();
-    return [thisYear, thisYear - 1, thisYear - 2];
-  }
-
   constructor(public traSer: TransactionService) {}
 
   ngOnInit() {
     console.log("Transactions onInit");
-    this.lastYears = this.getLastYears();
-    this.selectedYear = this.lastYears[0];
-    this.selectedMonth = new Date().getMonth() + 1;
+    this.selectedYear = "2019";
+    this.selectedMonth = "12";
     this.startNewTransactionRequest();
   }
 }
