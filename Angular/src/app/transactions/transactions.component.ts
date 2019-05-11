@@ -13,6 +13,7 @@ import { TransactionService } from "../dashboard/services/transaction.service";
 export class TransactionsComponent implements OnInit {
   private selectedYear: number;
   private selectedMonth: number;
+  private filterText: string;
 
   yearSelectionFieldChanged(event) {
     this.selectedYear = parseInt(event.target.value);
@@ -43,12 +44,19 @@ export class TransactionsComponent implements OnInit {
 
     let dateFrom =
       (this.selectedYear > 0 || this.selectedMonth > 0 ? year : "2017") +
-      "-" + month + "-01";
+      "-" +
+      month +
+      "-01";
     let dateTo =
-      year + "-" + (this.selectedMonth > 0 ? month : "12") + "-" +
+      year +
+      "-" +
+      (this.selectedMonth > 0 ? month : "12") +
+      "-" +
       this.daysInMonth(month, this.selectedYear);
-      
-    console.log(dateFrom, dateTo);
+
+    this.filterText = (this.selectedYear > 0 || this.selectedMonth > 0 ) ?
+      "Anzeige gefiltert: von " + dateTo + " bis "+ dateTo :
+      "Alle zeigen";
     this.traSer.getTransactions(dateFrom, dateTo, 50, 0);
   }
 
@@ -58,6 +66,7 @@ export class TransactionsComponent implements OnInit {
     console.log("Transactions onInit");
     this.selectedYear = "0";
     this.selectedMonth = "0";
+    this.filterText = "Alle zeigen";
     this.startNewTransactionRequest();
   }
 }

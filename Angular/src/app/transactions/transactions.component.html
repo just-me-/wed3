@@ -3,10 +3,11 @@
 <div class="row">
   <div class="box">
     <h2>Filter</h2>
+    <p>{{ this.filterText }}</p>
     <form>
-      <div class="form-row">
+      <div class="row">
         <div class="col-md-5">
-          <label>Select a year</label>
+          <label>Nach Jahr filtern</label>
           <select
             class="form-control"
             (change)="this.yearSelectionFieldChanged($event)"
@@ -18,7 +19,7 @@
           </select>
         </div>
         <div class="col-md-7">
-          <label>Select a month</label>
+          <label>Nach Monat filtern</label>
           <select
             [ngModel]="this.selectedMonth"
             class="form-control"
