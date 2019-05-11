@@ -11,6 +11,7 @@
             class="form-control"
             (change)="this.yearSelectionFieldChanged($event)"
           >
+            <option [value]="0">-</option>
             <option [value]="2019">2019</option>
             <option [value]="2018">2018</option>
             <option [value]="2017">2017</option>
@@ -24,6 +25,7 @@
             (ngModelChange)="this.monthSelectionFieldChanged($event)"
             [ngModelOptions]="{ standalone: true }"
           >
+            <option [value]="0">-</option>
             <option [value]="1">Januar</option>
             <option [value]="2">Februar</option>
             <option [value]="3">März</option>
@@ -48,19 +50,21 @@
     <h2>Bewegungen</h2>
     <table class="table table-striped">
       <tr>
+        <th>Datum</th>
         <th>Von</th>
         <th>Zu</th>
         <th>Betrag</th>
         <th>Kontostand neu</th>
       </tr>
       <tr *ngFor="let transaction of this.traSer.transactionList">
+        <td>{{ transaction.date }}</td>
         <td>{{ transaction.from }}</td>
         <td>{{ transaction.target }}</td>
         <td>{{ transaction.amount }}</td>
         <td>{{ transaction.total }}</td>
       </tr>
       <tr *ngIf="this.traSer.transactionList.length == 0">
-        <td colspan="4" class="table-warning">Nix gefunden...</td>
+        <td colspan="5" class="table-warning">Nix gefunden...</td>
       </tr>
     </table>
   </div>

@@ -24,6 +24,11 @@ export class TransactionsComponent implements OnInit {
     this.startNewTransactionRequest();
   }
 
+  daysInMonth (month, year = 2019) {
+    month = parseInt(month);
+    return new Date(year, month, 0).getDate();
+  }
+
   startNewTransactionRequest() {
     console.log(
       "Transaktionen vom " +
@@ -33,16 +38,16 @@ export class TransactionsComponent implements OnInit {
         " starten"
     );
 
-/*
-    const startDate = new Date(this.selectedYear, this.selectedMonth , 1);
-    const endDate = moment(startDate).endOf('month').toDate();
+    const month = (this.selectedMonth > 0) ? this.selectedMonth : "01";
+    const year = (this.selectedYear > 0) ? this.selectedYear : "2019";
 
-    const startDateString = startDate.getFullYear() + "-" + startDate.getMonth() + "-" + startDate.getDate();
-    const endDateString = endDate.getFullYear() + "-" + endDate.getMonth() + "-" + endDate.getDate();
-
-    this.traSer.getTransactions(startDateString, endDateString, null);
-    */
-    this.traSer.getTransactions();
+    let dateFrom = (this.selectedYear > 0 || this.selectedMonth > 0 ? year : "2017")+"-"+month+"-01";
+    let dateTo = year+"-"
+                +(this.selectedMonth > 0 ? month : "12")
+                +"-"
+                +this.daysInMonth(month, this.selectedYear);
+    console.log(dateFrom, dateTo);
+    this.traSer.getTransactions(dateFrom, dateTo, 50, 0);
 
   }
 
@@ -50,8 +55,8 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit() {
     console.log("Transactions onInit");
-    this.selectedYear = "2019";
-    this.selectedMonth = "12";
+    this.selectedYear = "0";
+    this.selectedMonth = "0";
     this.startNewTransactionRequest();
   }
 }
