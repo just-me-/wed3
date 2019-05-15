@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NgForm} from "@angular/forms";
 
 import {AuthService} from '../../../auth/services/auth.service';
@@ -38,12 +38,12 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  @Output() transactionAdded: EventEmitter<Transaction> = new EventEmitter();
+
   public createTransaction(f: NgForm): boolean {
     if (f && f.valid) {
       this.errorMessage = this.successMessage = null;
-      // transfer
-      /*
-      this.resource.createTransaction(this.targetNr, this.amount).subscribe(
+      this.traSer.transfer(this.targetNr, this.amount).subscribe(
         (transaction: Transaction) => {
           if (transaction) {
             this.targetNr = null;
@@ -58,7 +58,6 @@ export class DashboardComponent implements OnInit {
           }
         }
       );
-      */
     }
     return false;
   }
@@ -75,22 +74,4 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  public doTransfer(f: NgForm): void{
-    if (f && f.valid) {
-      try {
-        console.log("in the component");
-        this.traSer
-          .transfer(new Transaction(
-            this.user,
-            f.value.target,
-            f.value.amount,
-            100,
-            "2019-04-26-14:39:02",
-          ))
-          .then(() => console.log("the stuff could be transfered"));
-      } catch (e) {
-        console.log("Something went wrong" + e);
-      }
-    }
-  }
 }

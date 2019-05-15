@@ -35,22 +35,8 @@ export class TransactionService {
     return this.resource.getAccount(targetNr);
   }
 
-  public transfer(transactionModel: Transaction) {
-    console.log("in the service", transactionModel);
-    return new Promise<void>((resolve, reject) => {
-      this.resource
-        .transfer(transactionModel)
-        .subscribe((data: Transaction) => {
-          this.transferResult = !isBlank(data) ? data : null;
-
-          if (isBlank(data)) {
-            reject();
-          } else {
-            resolve();
-          }
-
-        });
-    });
+  public transfer(target: string, amount: number): Observable<Transaction> {
+    return this.resource.createTransaction(target, amount);
   }
 
   public get transactionList(): Array<Transaction> {
