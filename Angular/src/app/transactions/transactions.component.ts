@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
 import { AuthModule } from "../auth/auth.module";
-import { TransModule } from "../dashboard/dashboard.module";
 
 import { TransactionService } from "../dashboard/services/transaction.service";
 
@@ -69,8 +68,8 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit() {
     console.log("Transactions onInit");
-    this.selectedYear = "0";
-    this.selectedMonth = "0";
+    this.selectedYear = 0;
+    this.selectedMonth = 0;
     this.filterText = "Alle zeigen";
     this.startNewTransactionRequest();
   }
