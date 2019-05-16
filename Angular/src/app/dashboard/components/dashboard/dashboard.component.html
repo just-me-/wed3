@@ -26,9 +26,9 @@
             >
           </div>
 
-          <div *ngIf="!targetNrCtrl.valid" class="help-text">Bitte Ziel-Konto angeben.</div>
-          <div *ngIf="targetAccount" class="help-text">{{ targetAccount.owner.firstname}} {{targetAccount.owner.lastname}}</div>
-          <div *ngIf="targetNrCtrl.valid && !targetAccount" class="help-text">Konto ist unbekannt!</div>
+          <div *ngIf="!targetNrCtrl.valid" class="help-text alert alert-warning col-sm-12">Bitte Ziel-Konto angeben.</div>
+          <div *ngIf="targetAccount" class="help-text alert alert-success col-sm-12">{{ targetAccount.owner.firstname}} {{targetAccount.owner.lastname}}</div>
+          <div *ngIf="targetNrCtrl.valid && !targetAccount" class="help-text alert alert-danger col-sm-12">Konto ist unbekannt!</div>
 
         </div>
 
@@ -37,16 +37,16 @@
             Betrag in CHF
           </label>
           <div class="col-sm-9">
-            <input type="text" name="amount" class="form-control" id="zu" required [(ngModel)]="amount" #amountCtrl="ngModel">
+            <input pattern="^\d{1,}(\.(\d?|\d(5|0)))?" type="text" name="amount" class="form-control" id="zu" required [(ngModel)]="amount" #amountCtrl="ngModel">
           </div>
 
-          <div *ngIf="!amountCtrl.valid" class="help-text">Ungültiger Betrag</div>
+          <div *ngIf="!amountCtrl.valid" class="help-text alert alert-danger col-sm-12">Ungültiger Betrag</div>
 
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Überweisen</button>
-        <div *ngIf="errorMessage" class="callout alert">{{errorMessage}}</div>
-        <div *ngIf="successMessage" class="callout success">{{successMessage}}</div>
+        <button type="submit" class="btn btn-danger btn-block">Überweisen</button>
+        <div *ngIf="errorMessage" class="row alert-danger col-sm-12">{{errorMessage}}</div>
+        <div *ngIf="successMessage" class="row alert-success col-sm-12">{{successMessage}}</div>
 
       </form>
     </div>
@@ -69,6 +69,9 @@
           <td>{{ transaction.total }}</td>
         </tr>
       </table>
+      <a href="/transactions" class="btn btn-danger btn-block">
+        Alle anzeigen
+      </a>
     </div>
   </div>
 

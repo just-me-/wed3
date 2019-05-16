@@ -5,7 +5,7 @@
       First name:
     </label>
     <div class="col-sm-9">
-      <input ngModel pattern=".{2,}" placeholder="First name" type="text" name="firstname" class="form-control" id="firstname"
+      <input ngModel pattern=".{3,}" placeholder="First name" type="text" name="firstname" class="form-control" id="firstname"
       #firstname="ngModel" required>
       <ngb-alert [dismissible]="false" [hidden]="firstname.valid || firstname.pristine">
         Please specify your first name.
@@ -18,7 +18,7 @@
       Last name:
     </label>
     <div class="col-sm-9">
-      <input ngModel pattern=".{2,}" placeholder="Last name" type="text" name="lastname" class="form-control" id="lastname"
+      <input ngModel pattern=".{3,}" placeholder="Last name" type="text" name="lastname" class="form-control" id="lastname"
       #lastname="ngModel" required>
       <ngb-alert [dismissible]="false" [hidden]="lastname.valid || lastname.pristine">
         Please specify your last name.
