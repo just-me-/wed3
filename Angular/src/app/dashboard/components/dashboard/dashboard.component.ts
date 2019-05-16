@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public setTargetAccount() {
-    if (this.targetNr && this.targetNr>1000001) {
+    if (this.targetNr && parseInt(this.targetNr, 10) >= 1000000) {
       this.traSer.getAccount(this.targetNr).subscribe(
         (account: Account) => {
           this.targetAccount = account;
