@@ -45,8 +45,8 @@
         </div>
 
         <button type="submit" class="btn btn-danger btn-block">Überweisen</button>
-        <div *ngIf="errorMessage" class="row alert-danger col-sm-12">{{errorMessage}}</div>
-        <div *ngIf="successMessage" class="row alert-success col-sm-12">{{successMessage}}</div>
+        <div *ngIf="errorMessage" class="row alert-danger alert">{{errorMessage}}</div>
+        <div *ngIf="successMessage" class="row alert-success alert">{{successMessage}}</div>
 
       </form>
     </div>

@@ -43,6 +43,10 @@ export class DashboardComponent implements OnInit {
   public createTransaction(f: NgForm): boolean {
     if (f && f.valid) {
       this.errorMessage = this.successMessage = null;
+      if(this.amount < 0.05) {
+        this.errorMessage = 'Minimalbetrag 0.05 CHF!';
+        return false;
+      }
       this.traSer.transfer(this.targetNr, this.amount).subscribe(
         (transaction: Transaction) => {
           if (transaction) {
@@ -63,7 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public setTargetAccount() {
-    if (this.targetNr) {
+    if (this.targetNr && this.targetNr>1000001) {
       this.traSer.getAccount(this.targetNr).subscribe(
         (account: Account) => {
           this.targetAccount = account;
